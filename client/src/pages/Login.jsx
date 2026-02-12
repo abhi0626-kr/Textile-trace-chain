@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import API_URL from '../api/config';
 
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -26,7 +27,7 @@ const Login = () => {
             : formData;
 
         try {
-            const res = await axios.post(`http://localhost:5000${endpoint}`, payload);
+            const res = await axios.post(`${API_URL}${endpoint}`, payload);
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('user', JSON.stringify(res.data.user));
             toast.success(isLogin ? 'Login Successful!' : 'Registration Successful!');

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import API_URL from '../api/config';
 import QRCode from 'react-qr-code';
 import QRScanner from '../components/QRScanner';
 
@@ -29,7 +30,7 @@ const Dashboard = () => {
         formData.append('document', selectedFile);
 
         try {
-            await axios.post(`http://localhost:5000/api/batch/${selectedBatch.batchId}/upload`, formData, {
+            await axios.post(`${API_URL}/api/batch/${selectedBatch.batchId}/upload`, formData, {
                 headers: {
                     'x-auth-token': token,
                     'Content-Type': 'multipart/form-data'
@@ -59,7 +60,7 @@ const Dashboard = () => {
     const fetchBatches = async (u, archivedStatus = false) => {
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.get(`http://localhost:5000/api/batch?showArchived=${archivedStatus}`, {
+            const res = await axios.get(`${API_URL}/api/batch?showArchived=${archivedStatus}`, {
                 headers: { 'x-auth-token': token }
             });
             setBatches(res.data);
@@ -71,7 +72,7 @@ const Dashboard = () => {
     const handleArchive = async (batchId) => {
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.put(`http://localhost:5000/api/batch/${batchId}/archive`, {}, {
+            const res = await axios.put(`${API_URL}/api/batch/${batchId}/archive`, {}, {
                 headers: { 'x-auth-token': token }
             });
             toast.success(res.data.msg);
@@ -88,7 +89,7 @@ const Dashboard = () => {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.put(`http://localhost:5000/api/batch/${selectedBatch.batchId}/update`, {
+            await axios.put(`${API_URL}/api/batch/${selectedBatch.batchId}/update`, {
                 stage: actionType === 'UPDATE' ? formData.stage : undefined,
                 newOwnerId: actionType === 'TRANSFER' ? formData.newOwnerId : undefined,
                 data: actionType === 'UPDATE' ? { location: formData.location } : undefined

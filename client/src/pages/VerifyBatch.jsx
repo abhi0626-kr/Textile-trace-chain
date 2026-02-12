@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import API_URL from '../api/config';
 import TraceTimeline from '../components/TraceTimeline';
 import TraceMap from '../components/TraceMap';
 import ImpactScore from '../components/ImpactScore';
@@ -12,7 +13,7 @@ const VerifyBatch = () => {
     useEffect(() => {
         const fetchBatch = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/batch/${id}`);
+                const res = await axios.get(`${API_URL}/api/batch/${id}`);
                 setBatch(res.data);
             } catch (err) {
                 console.error("Failed to fetch batch", err);
@@ -154,7 +155,7 @@ const VerifyBatch = () => {
                                                 {batch.documents.map((doc, i) => (
                                                     <a
                                                         key={i}
-                                                        href={`http://localhost:5000${doc.url}`}
+                                                        href={`${API_URL}${doc.url}`}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                         className="bg-black/40 hover:bg-[#d4af37]/5 p-5 rounded-3xl border border-white/5 hover:border-[#d4af37]/20 transition-all group flex items-start space-x-4"

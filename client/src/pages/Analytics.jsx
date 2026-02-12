@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_URL from '../api/config';
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
     PieChart, Pie, Cell, BarChart, Bar, Legend
@@ -14,7 +15,7 @@ const Analytics = () => {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/batch/stats/summary');
+                const res = await axios.get(`${API_URL}/api/batch/stats/summary`);
                 setData(res.data);
             } catch (err) {
                 console.error("Failed to fetch statistics", err);

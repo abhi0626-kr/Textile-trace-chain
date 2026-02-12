@@ -1,20 +1,29 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { io } from 'socket.io-client';
-import { toast } from 'react-hot-toast';
+import toast from 'react-hot-toast';
+import API_URL from '../api/config';
 import logo from '../assets/logo.jpg';
 
 const Navbar = () => {
+    const [scrolled, setScrolled] = useState(false);
+    const [user, setUser] = useState(null);
     const [notifications, setNotifications] = useState([]);
     const [showNotifications, setShowNotifications] = useState(false);
     const unreadCount = notifications.filter(n => !n.read).length;
+    const navigate = useNavigate();
 
     useEffect(() => {
+        const handleScroll = () => setScrolled(window.scrollY > 20);
+        window.addEventListener('scroll', handleScroll);
+
         const userStr = localStorage.getItem('user');
         if (!userStr) return;
 
         const user = JSON.parse(userStr);
-        const socket = io('http://localhost:5000');
+        setUser(user);
+
+        const socket = io(API_URL);
 
         socket.on('connect', () => {
             // Join private channel based on email (used for transfers)
@@ -24,7 +33,7 @@ const Navbar = () => {
         socket.on('notification', (data) => {
             setNotifications(prev => [{ ...data, id: Date.now(), read: false }, ...prev].slice(0, 10));
             toast.custom((t) => (
-                <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-black/90 border border-[#d4af37]/40 shadow-2xl rounded-[2rem] pointer-events-auto flex ring-1 ring-black ring-opacity-5 p-6 backdrop-blur-xl`}>
+                <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max - w - md w - full bg - black / 90 border border - [#d4af37] / 40 shadow - 2xl rounded - [2rem] pointer - events - auto flex ring - 1 ring - black ring - opacity - 5 p - 6 backdrop - blur - xl`}>
                     <div className="flex-1 w-0">
                         <div className="flex items-start">
                             <div className="flex-shrink-0 pt-0.5">
@@ -35,7 +44,7 @@ const Navbar = () => {
                             <div className="ml-4 flex-1">
                                 <p className="text-sm font-black text-[#d4af37] uppercase tracking-widest">{data.type} Alert</p>
                                 <p className="mt-1 text-sm font-bold text-white mb-2">{data.msg}</p>
-                                <Link to={`/verify/${data.batchId}`} className="text-[10px] font-black uppercase text-slate-500 hover:text-[#d4af37] transition-colors" onClick={() => toast.dismiss(t.id)}>Audit Transaction →</Link>
+                                <Link to={`/ verify / ${data.batchId} `} className="text-[10px] font-black uppercase text-slate-500 hover:text-[#d4af37] transition-colors" onClick={() => toast.dismiss(t.id)}>Audit Transaction →</Link>
                             </div>
                         </div>
                     </div>
@@ -69,7 +78,7 @@ const Navbar = () => {
                         <div className="relative">
                             <button
                                 onClick={() => { setShowNotifications(!showNotifications); markAllRead(); }}
-                                className={`relative p-2 rounded-xl transition-all ${showNotifications ? 'bg-[#d4af37] text-black' : 'hover:bg-white/5 text-slate-400 hover:text-[#d4af37]'}`}
+                                className={`relative p - 2 rounded - xl transition - all ${showNotifications ? 'bg-[#d4af37] text-black' : 'hover:bg-white/5 text-slate-400 hover:text-[#d4af37]'} `}
                             >
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
                                 {unreadCount > 0 && (
@@ -94,7 +103,7 @@ const Navbar = () => {
                                                         <span className="text-[8px] text-slate-600">{new Date(n.timestamp).toLocaleTimeString()}</span>
                                                     </div>
                                                     <p className="text-[11px] font-bold text-slate-300 leading-relaxed mb-2">{n.msg}</p>
-                                                    <Link to={`/verify/${n.batchId}`} className="text-[9px] font-black text-slate-500 hover:text-[#d4af37] uppercase tracking-tighter" onClick={() => setShowNotifications(false)}>Audit Record →</Link>
+                                                    <Link to={`/ verify / ${n.batchId} `} className="text-[9px] font-black text-slate-500 hover:text-[#d4af37] uppercase tracking-tighter" onClick={() => setShowNotifications(false)}>Audit Record →</Link>
                                                 </div>
                                             ))
                                         )}

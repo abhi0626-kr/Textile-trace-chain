@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import API_URL from '../api/config';
 
 const CreateBatch = () => {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ const CreateBatch = () => {
         const token = localStorage.getItem('token');
 
         try {
-            await axios.post('http://localhost:5000/api/batch', {
+            await axios.post(`${API_URL}/api/batch`, {
                 batchId: formData.batchId,
                 data: {
                     location: formData.location,
@@ -40,7 +41,7 @@ const CreateBatch = () => {
         } catch (err) {
             console.error(err);
             const errorMsg = err.response?.data?.msg || err.message;
-            toast.error(`Error creating batch: ${errorMsg}`);
+            toast.error(`Error creating batch: ${errorMsg} `);
         }
     };
 
