@@ -43,13 +43,21 @@ const getCoordinates = (location) => {
 // Middleware to verify token
 const auth = (req, res, next) => {
     const token = req.header('x-auth-token');
-    if (!token) return res.status(401).json({ msg: 'No token, authorization denied' });
+    console.log('Incoming request to:', req.originalUrl);
+    console.log('Token received:', token ? 'Yes (starts with ' + token.substring(0, 10) + '...)' : 'No');
+
+    if (!token) {
+        console.log('401: No token provided');
+        return res.status(401).json({ msg: 'No token, authorization denied' });
+    }
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded.user;
+        console.log('Token verified for user:', req.user.id);
         next();
     } catch (err) {
+        console.log('401: Token verification failed:', err.message);
         res.status(401).json({ msg: 'Token is not valid' });
     }
 };
