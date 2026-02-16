@@ -27,7 +27,12 @@ const UserSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
-    }
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    verificationToken: String
 });
 
 // Encrypt password before saving

@@ -4,12 +4,15 @@ import { io } from 'socket.io-client';
 import toast from 'react-hot-toast';
 import API_URL from '../api/config';
 import logo from '../assets/logo.jpg';
+import ThemeToggle from './ThemeToggle';
+import { Menu, X } from 'lucide-react'; // Import icons
 
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
     const [user, setUser] = useState(null);
     const [notifications, setNotifications] = useState([]);
     const [showNotifications, setShowNotifications] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false); // Mobile menu state
     const unreadCount = notifications.filter(n => !n.read).length;
     const navigate = useNavigate();
 
@@ -26,14 +29,13 @@ const Navbar = () => {
         const socket = io(API_URL);
 
         socket.on('connect', () => {
-            // Join private channel based on email (used for transfers)
             socket.emit('join', user.email);
         });
 
         socket.on('notification', (data) => {
             setNotifications(prev => [{ ...data, id: Date.now(), read: false }, ...prev].slice(0, 10));
             toast.custom((t) => (
-                <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max - w - md w - full bg - black / 90 border border - [#d4af37] / 40 shadow - 2xl rounded - [2rem] pointer - events - auto flex ring - 1 ring - black ring - opacity - 5 p - 6 backdrop - blur - xl`}>
+                <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-black/90 border border-[#d4af37]/40 shadow-2xl rounded-[2rem] pointer-events-auto flex ring-1 ring-black ring-opacity-5 p-6 backdrop-blur-xl`}>
                     <div className="flex-1 w-0">
                         <div className="flex items-start">
                             <div className="flex-shrink-0 pt-0.5">
@@ -44,7 +46,7 @@ const Navbar = () => {
                             <div className="ml-4 flex-1">
                                 <p className="text-sm font-black text-[#d4af37] uppercase tracking-widest">{data.type} Alert</p>
                                 <p className="mt-1 text-sm font-bold text-white mb-2">{data.msg}</p>
-                                <Link to={`/ verify / ${data.batchId} `} className="text-[10px] font-black uppercase text-slate-500 hover:text-[#d4af37] transition-colors" onClick={() => toast.dismiss(t.id)}>Audit Transaction →</Link>
+                                <Link to={`/verify/${data.batchId}`} className="text-[10px] font-black uppercase text-slate-500 hover:text-[#d4af37] transition-colors" onClick={() => toast.dismiss(t.id)}>Audit Transaction →</Link>
                             </div>
                         </div>
                     </div>
@@ -60,25 +62,38 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="bg-black border-b border-[#d4af37]/20 px-8 py-5 flex justify-between items-center sticky top-0 z-40 backdrop-blur-xl bg-black/90">
-            <Link to="/" className="flex items-center space-x-3 group">
-                <img src={logo} alt="Logo" className="w-10 h-10 rounded-xl shadow-[0_0_15px_rgba(212,175,55,0.3)] group-hover:scale-110 transition-transform object-cover border border-[#d4af37]/30" />
-                <span className="text-xl font-black text-white tracking-tighter">
-                    Textile<span className="text-[#d4af37]">Trace</span>
-                </span>
-            </Link>
+        <nav className={`bg-background border-b border-border px-4 md:px-8 py-4 md:py-5 sticky top-0 z-40 backdrop-blur-xl bg-background/90 transition-all duration-300 ${scrolled ? 'shadow-md' : ''}`}>
+            <div className="flex justify-between items-center">
+                <Link to="/" className="flex items-center space-x-3 group relative z-50">
+                    <img src={logo} alt="Logo" className="w-8 h-8 md:w-10 md:h-10 rounded-xl shadow-[0_0_15px_rgba(212,175,55,0.3)] group-hover:scale-110 transition-transform object-cover border border-gold/30" />
+                    <span className="text-lg md:text-xl font-black text-primary tracking-tighter">
+                        Textile<span className="text-gold">Trace</span>
+                    </span>
+                </Link>
 
-            <div className="flex items-center space-x-8 font-bold text-xs uppercase tracking-widest text-slate-500">
-                <Link to="/" className="hover:text-[#d4af37] transition-colors">Network Explorer</Link>
-                <Link to="/analytics" className="hover:text-[#d4af37] transition-colors">Network Intelligence</Link>
+            <div className="flex items-center space-x-4 lg:hidden relative z-50">
+                <ThemeToggle />
+                <button 
+                    className="text-secondary p-2"
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                >
+                    {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
+            </div>
+
+            {/* Desktop Menu */}
+            <div className="hidden lg:flex items-center space-x-8 font-bold text-xs uppercase tracking-widest text-secondary">
+                <Link to="/" className="hover:text-gold transition-colors">Network Explorer</Link>
+                <Link to="/analytics" className="hover:text-gold transition-colors">Network Intelligence</Link>
+                <ThemeToggle />
 
                 {localStorage.getItem('token') ? (
-                    <div className="flex items-center space-x-6 pl-6 border-l border-white/10 relative">
+                    <div className="flex items-center space-x-6 pl-6 border-l border-border relative">
                         {/* Notification Bell */}
                         <div className="relative">
                             <button
                                 onClick={() => { setShowNotifications(!showNotifications); markAllRead(); }}
-                                className={`relative p - 2 rounded - xl transition - all ${showNotifications ? 'bg-[#d4af37] text-black' : 'hover:bg-white/5 text-slate-400 hover:text-[#d4af37]'} `}
+                                className={`relative p-2 rounded-xl transition-all ${showNotifications ? 'bg-gold text-black' : 'hover:bg-white/5 text-secondary hover:text-gold'}`}
                             >
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
                                 {unreadCount > 0 && (
@@ -87,23 +102,22 @@ const Navbar = () => {
                                     </span>
                                 )}
                             </button>
-
                             {/* Notifications Dropdown */}
                             {showNotifications && (
-                                <div className="absolute right-0 mt-4 w-80 bg-[#121212] border border-[#d4af37]/20 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.8)] p-6 overflow-hidden">
-                                    <h3 className="text-[10px] font-black uppercase text-[#d4af37] tracking-[0.3em] mb-6 opacity-60">Network Activity</h3>
+                                <div className="absolute right-0 mt-4 w-80 bg-surface border border-border rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.2)] p-6 overflow-hidden z-50">
+                                    <h3 className="text-[10px] font-black uppercase text-gold tracking-[0.3em] mb-6 opacity-60">Network Activity</h3>
                                     <div className="space-y-4 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
                                         {notifications.length === 0 ? (
-                                            <p className="text-slate-600 text-[10px] italic py-4">No recent ledger events...</p>
+                                            <p className="text-secondary text-[10px] italic py-4">No recent ledger events...</p>
                                         ) : (
                                             notifications.map(n => (
-                                                <div key={n.id} className="p-4 bg-white/5 rounded-2xl border border-white/5 hover:bg-[#d4af37]/5 transition-colors group">
+                                                <div key={n.id} className="p-4 bg-white/5 rounded-2xl border border-border hover:bg-gold/5 transition-colors group">
                                                     <div className="flex justify-between items-start mb-1">
-                                                        <span className="text-[8px] font-black text-[#d4af37] tracking-[0.2em]">{n.type}</span>
-                                                        <span className="text-[8px] text-slate-600">{new Date(n.timestamp).toLocaleTimeString()}</span>
+                                                        <span className="text-[8px] font-black text-gold tracking-[0.2em]">{n.type}</span>
+                                                        <span className="text-[8px] text-secondary">{new Date(n.timestamp).toLocaleTimeString()}</span>
                                                     </div>
-                                                    <p className="text-[11px] font-bold text-slate-300 leading-relaxed mb-2">{n.msg}</p>
-                                                    <Link to={`/ verify / ${n.batchId} `} className="text-[9px] font-black text-slate-500 hover:text-[#d4af37] uppercase tracking-tighter" onClick={() => setShowNotifications(false)}>Audit Record →</Link>
+                                                    <p className="text-[11px] font-bold text-primary leading-relaxed mb-2">{n.msg}</p>
+                                                    <Link to={`/verify/${n.batchId}`} className="text-[9px] font-black text-secondary hover:text-gold uppercase tracking-tighter" onClick={() => setShowNotifications(false)}>Audit Record →</Link>
                                                 </div>
                                             ))
                                         )}
@@ -112,24 +126,60 @@ const Navbar = () => {
                             )}
                         </div>
 
-                        <Link to="/create-batch" className="text-[#d4af37] hover:text-[#decba4] transition-colors">Mint Batch</Link>
+                        <Link to="/create-batch" className="text-gold hover:text-[#decba4] transition-colors">Mint Batch</Link>
                         <button
                             onClick={() => {
                                 localStorage.removeItem('token');
                                 localStorage.removeItem('user');
                                 window.location.href = '/';
                             }}
-                            className="bg-white/5 text-slate-400 px-5 py-2.5 rounded-xl hover:bg-red-900/40 hover:text-red-400 transition-all border border-white/5 hover:border-red-500/20"
+                            className="bg-white/5 text-secondary px-5 py-2.5 rounded-xl hover:bg-red-900/40 hover:text-red-400 transition-all border border-white/5 hover:border-red-500/20"
                         >
                             Node Logout
                         </button>
                     </div>
                 ) : (
-                    <Link to="/login" className="bg-[#d4af37] text-black px-6 py-3 rounded-xl hover:bg-[#decba4] transition-all shadow-lg shadow-[#d4af37]/10">
+                    <Link to="/login" className="bg-gold text-black px-6 py-3 rounded-xl hover:bg-[#decba4] transition-all shadow-lg shadow-gold/10">
                         Secure Access
                     </Link>
                 )}
             </div>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        <div className={`fixed inset-0 bg-background z-30 flex flex-col items-center justify-start pt-24 space-y-6 md:space-y-8 transition-transform duration-500 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} lg:hidden overflow-y-auto`}>
+            <Link to="/" onClick={() => setIsMenuOpen(false)} className="text-base md:text-xl font-black text-primary hover:text-gold transition-colors">Network Explorer</Link>
+            <Link to="/analytics" onClick={() => setIsMenuOpen(false)} className="text-base md:text-xl font-black text-primary hover:text-gold transition-colors">Network Intelligence</Link>
+            
+            {localStorage.getItem('token') ? (
+                <>
+                    <button
+                        onClick={() => { setShowNotifications(!showNotifications); markAllRead(); }}
+                        className="flex items-center space-x-3 p-3 bg-white/5 rounded-xl border border-border hover:border-gold/50 transition-all w-3/4"
+                    >
+                        <svg className="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                        <span className="text-sm font-bold text-primary">Notifications {unreadCount > 0 && `(${unreadCount})`}</span>
+                    </button>
+                    
+                    <Link to="/create-batch" onClick={() => setIsMenuOpen(false)} className="text-gold text-sm md:text-base font-bold border border-gold/20 px-6 py-3 rounded-xl bg-gold/5 w-3/4 text-center hover:bg-gold/10 transition-colors">Mint Batch</Link>
+                    <button
+                        onClick={() => {
+                            localStorage.removeItem('token');
+                            localStorage.removeItem('user');
+                            setIsMenuOpen(false);
+                            window.location.href = '/';
+                        }}
+                        className="text-red-400 font-bold text-sm md:text-base uppercase tracking-widest hover:text-red-500 transition-colors"
+                    >
+                        Node Logout
+                    </button>
+                </>
+            ) : (
+                <Link to="/login" onClick={() => setIsMenuOpen(false)} className="bg-gold text-black px-6 py-3 rounded-xl font-black text-sm md:text-base uppercase tracking-widest shadow-xl shadow-gold/20 w-3/4 text-center hover:bg-[#decba4] transition-all">
+                    Secure Access
+                </Link>
+            )}
+        </div>
         </nav>
     );
 };

@@ -32,44 +32,44 @@ const VerifyBatch = () => {
     );
 
     return (
-        <div className="min-h-screen bg-slate-900 pb-20 text-slate-300">
+        <div className="min-h-screen bg-slate-900 pb-12 sm:pb-20 text-slate-300">
             {/* Enterprise Verification Header */}
-            <div className="bg-black text-white px-8 py-16 mb-12 relative overflow-hidden border-b border-[#d4af37]/20">
+            <div className="bg-black text-white px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-16 mb-6 sm:mb-8 md:mb-12 relative overflow-hidden border-b border-[#d4af37]/20">
                 <div className="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-[#d4af37]/10 to-transparent"></div>
 
                 <div className="max-w-6xl mx-auto relative z-10">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 sm:mb-8 gap-4">
                         <div>
-                            <Link to="/" className="text-[#d4af37] text-xs font-black uppercase tracking-widest hover:text-[#decba4] transition-colors mb-4 inline-block">← Return to Network</Link>
-                            <h1 className="text-5xl font-black tracking-tighter mb-2">Immutable Trace Passport</h1>
-                            <p className="text-slate-500 font-medium italic">Cryptographic audit of premium textile supply chain integrity</p>
+                            <Link to="/" className="text-[#d4af37] text-xs font-black uppercase tracking-widest hover:text-[#decba4] transition-colors mb-3 sm:mb-4 inline-block">← Return to Network</Link>
+                            <h1 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tighter mb-2">Immutable Trace Passport</h1>
+                            <p className="text-slate-500 font-medium italic text-xs sm:text-sm md:text-base">Cryptographic audit of premium textile supply chain integrity</p>
                         </div>
-                        <div className="bg-[#d4af37] text-black px-8 py-4 rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-[#d4af37]/20 flex items-center space-x-3">
-                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M2.166 4.9L10 .3l7.834 4.6a1 1 0 01.5 1.175l-2.9 10.155a1 1 0 01-.806.711l-4.228.423a1 1 0 01-.8 0l-4.228-.423a1 1 0 01-.806-.711l-2.9-10.155a1 1 0 01.5-1.175zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" /></svg>
+                        <div className="bg-[#d4af37] text-black px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-xl sm:rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-[#d4af37]/20 flex items-center space-x-2 sm:space-x-3 w-full md:w-auto justify-center text-sm sm:text-base">
+                            <svg className="w-5 sm:w-6 h-5 sm:h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M2.166 4.9L10 .3l7.834 4.6a1 1 0 01.5 1.175l-2.9 10.155a1 1 0 01-.806.711l-4.228.423a1 1 0 01-.8 0l-4.228-.423a1 1 0 01-.806-.711l-2.9-10.155a1 1 0 01.5-1.175zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" /></svg>
                             <span>Ledger Verified</span>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 bg-white/5 p-8 rounded-[2.5rem] border border-white/10 backdrop-blur-sm">
-                        <div className="border-r border-white/10">
-                            <span className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Batch Trace ID</span>
-                            <p className="text-2xl font-black font-mono text-[#d4af37]">{batch.batchId}</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 bg-white/5 p-4 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl md:rounded-[2.5rem] border border-white/10 backdrop-blur-sm">
+                        <div className="border-b sm:border-b-0 sm:border-r border-white/10 pb-4 sm:pb-0">
+                            <span className="block text-[8px] sm:text-xs font-black uppercase tracking-widest text-slate-500 mb-1">Batch Trace ID</span>
+                            <p className="text-base sm:text-xl md:text-2xl font-black font-mono text-[#d4af37] break-all">{batch.batchId}</p>
                         </div>
-                        <div className="border-r border-white/10 px-0 md:px-8">
-                            <span className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Material Composition</span>
-                            <p className="text-2xl font-black text-white">{batch.data?.variety || 'Organic Cotton'} <span className="text-xs text-[#d4af37] font-medium">(Certified)</span></p>
+                        <div className="border-b sm:border-b-0 sm:border-r border-white/10 pb-4 sm:pb-0 px-0 sm:px-4 md:px-8">
+                            <span className="block text-[8px] sm:text-xs font-black uppercase tracking-widest text-slate-500 mb-1">Material Composition</span>
+                            <p className="text-base sm:text-xl md:text-2xl font-black text-white">{batch.data?.variety || 'Organic Cotton'} <span className="text-xs sm:text-sm text-[#d4af37] font-medium">(Certified)</span></p>
                         </div>
-                        <div className="px-0 md:px-8">
-                            <span className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Synchronized Update</span>
-                            <p className="text-2xl font-black text-white">{new Date(batch.updatedAt).toLocaleDateString()}</p>
+                        <div className="px-0 sm:px-4 md:px-8">
+                            <span className="block text-[8px] sm:text-xs font-black uppercase tracking-widest text-slate-500 mb-1">Synchronized Update</span>
+                            <p className="text-base sm:text-xl md:text-2xl font-black text-white">{new Date(batch.updatedAt).toLocaleDateString()}</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="max-w-6xl mx-auto px-8">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
                 {/* Horizontal Traceability Map */}
-                <div className="bg-black/60 backdrop-blur-md rounded-[3rem] shadow-xl border border-white/5 p-12 mb-12">
+                <div className="bg-black/60 backdrop-blur-md rounded-[3rem] shadow-xl border border-white/5 p-6 md:p-12 mb-12">
                     <h2 className="text-2xl font-black text-white tracking-tight mb-8 flex items-center space-x-3">
                         <span className="w-8 h-8 rounded-xl bg-[#d4af37] flex items-center justify-center text-black text-sm italic">T</span>
                         <span>Supply Chain Architecture</span>

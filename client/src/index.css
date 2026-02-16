@@ -1,42 +1,117 @@
 @import "tailwindcss";
 
+@theme {
+  --color-background: var(--bg-primary);
+  --color-surface: var(--bg-secondary);
+  --color-primary: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-border: var(--border-color);
+  --color-gold: var(--silk-gold);
+}
+
 :root {
+  /* Common Colors */
   --silk-gold: #d4af37;
-  --onyx-black: #0a0a0a;
+  
+  /* Dark Mode Defaults */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #121212;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --border-color: rgba(212, 175, 55, 0.2);
+}
+
+:root.light {
+  /* Light Mode Overrides */
+  --bg-primary: #F3EEEA;
+  --bg-secondary: #EBE3D5;
+  --text-primary: #000000;
+  --text-secondary: #4a4a4a;
+  --border-color: #B0A695;
 }
 
 body {
-  background-color: var(--onyx-black);
-  color: #f8fafc;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Mobile-first responsive font sizing */
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 769px) {
+  body {
+    font-size: 16px;
+  }
 }
 
 /* Custom Scrollbar for Luxury Feel */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+}
+
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
 }
 
 ::-webkit-scrollbar-track {
-  background: #000;
+  background: var(--bg-secondary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #222;
+  background: var(--text-secondary);
   border-radius: 10px;
-  border: 2px solid #000;
+  border: 2px solid var(--bg-secondary);
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--silk-gold);
 }
 
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+  button, a, input[type="button"], input[type="submit"] {
+    min-height: 44px;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prevent text size adjustment on mobile */
+* {
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 /* Leaflet Popup Overrides */
 .leaflet-popup-content-wrapper {
-  background: #121212 !important;
-  color: white !important;
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  background: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color);
   border-radius: 1.5rem !important;
   padding: 0 !important;
   overflow: hidden;
@@ -44,8 +119,8 @@ body {
 }
 
 .leaflet-popup-tip {
-  background: #121212 !important;
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color);
 }
 
 .leaflet-container {
