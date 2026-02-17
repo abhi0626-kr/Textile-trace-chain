@@ -52,9 +52,11 @@ mongoose.connect(process.env.MONGO_URI)
 const authRoutes = require('./routes/auth');
 const batchRoutes = require('./routes/batch');
 const blockchainRoutes = require('./routes/blockchain');
+const seedRoutes = require('./routes/seed');
 app.use('/api/auth', authRoutes);
 app.use('/api/batch', batchRoutes);
 app.use('/api/blockchain', blockchainRoutes);
+app.use('/api/seed', seedRoutes);
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {

@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast';
 import API_URL from '../api/config';
 import QRCode from 'react-qr-code';
 import QRScanner from '../components/QRScanner';
+import { motion } from 'framer-motion';
 
 const Dashboard = () => {
     const [user, setUser] = useState(null);
@@ -211,8 +212,14 @@ const Dashboard = () => {
 
                 {/* Interactive Inventory Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-                    {batches.map((batch) => (
-                        <div key={batch.batchId} className="group bg-surface/50 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-xl border border-border overflow-hidden hover:border-gold/50 transition-all duration-500 relative">
+                    {batches.map((batch, index) => (
+                        <motion.div 
+                            key={batch.batchId} 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3, delay: index * 0.05 }}
+                            className="group bg-surface/50 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-xl border border-border overflow-hidden hover:border-gold/50 transition-all duration-500 relative"
+                        >
                             {batch.isArchived && (
                                 <div className="absolute top-2 sm:top-4 right-2 sm:right-4 z-10 bg-red-900/40 text-red-400 border border-red-500/20 px-2 sm:px-3 py-1 rounded-full text-[8px] sm:text-[10px] font-black tracking-widest uppercase">Archived</div>
                             )}
@@ -278,7 +285,7 @@ const Dashboard = () => {
                                     {batch.isArchived ? 'Restore to Inventory' : 'Archive Record'}
                                 </button>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
 

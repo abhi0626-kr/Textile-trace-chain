@@ -133,7 +133,7 @@ const Navbar = () => {
                                 localStorage.removeItem('user');
                                 window.location.href = '/';
                             }}
-                            className="bg-white/5 text-secondary px-5 py-2.5 rounded-xl hover:bg-red-900/40 hover:text-red-400 transition-all border border-white/5 hover:border-red-500/20"
+                            className="bg-white/5 text-secondary px-5 py-2.5 rounded-xl hover:bg-red-900/40 hover:text-red-400 transition-all border border-border hover:border-red-500/20"
                         >
                             Node Logout
                         </button>
