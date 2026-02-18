@@ -131,3 +131,98 @@ html {
   margin: 0 !important;
   width: auto !important;
 }
+
+/* Mobile Menu Media Queries - Navbar */
+/* Mobile menu container - Extra small screens (≤ 480px) */
+@media (max-width: 480px) {
+  .mobile-menu-overlay {
+    padding-top: 20px;
+    gap: 1rem;
+    overflow-y: auto;
+    max-height: calc(100vh - 68px);
+  }
+  
+  .mobile-menu-link {
+    font-size: 14px;
+    padding: 12px 16px;
+    width: 90%;
+  }
+  
+  .mobile-menu-button {
+    font-size: 12px;
+    padding: 10px 14px;
+    width: 90%;
+  }
+  
+  .mobile-notification-btn {
+    font-size: 12px;
+    gap: 8px;
+    width: 85%;
+  }
+}
+
+/* Mobile menu - Small screens (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .mobile-menu-overlay {
+    padding-top: 24px;
+    gap: 1.25rem;
+    overflow-y: auto;
+    max-height: calc(100vh - 68px);
+  }
+  
+  .mobile-menu-link {
+    font-size: 16px;
+    padding: 14px 18px;
+    width: 85%;
+  }
+  
+  .mobile-menu-button {
+    font-size: 13px;
+    padding: 12px 16px;
+    width: 85%;
+  }
+  
+  .mobile-notification-btn {
+    font-size: 13px;
+    gap: 10px;
+    width: 80%;
+  }
+}
+
+/* Notification dropdown scroll area */
+@media (max-width: 480px) {
+  .notification-dropdown {
+    width: 90vw;
+    max-width: 320px;
+    max-height: 70vh;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .notification-dropdown {
+    width: 85vw;
+    max-width: 360px;
+    max-height: 75vh;
+  }
+}
+
+/* Ensure mobile menu items don't overflow */
+@media (max-width: 768px) {
+  .mobile-menu-link,
+  .mobile-menu-button {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+/* Touch-friendly padding for mobile menu items */
+@media (hover: none) and (pointer: coarse) {
+  .mobile-menu-link,
+  .mobile-menu-button,
+  .mobile-notification-btn {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

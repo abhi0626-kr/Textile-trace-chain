@@ -22,9 +22,22 @@ app.set('socketio', io);
 io.on('connection', (socket) => {
     console.log('A user connected to the notification network');
 
-    socket.on('join', (userId) => {
-        socket.join(userId);
-        console.log(`User ${userId} joined their private Notification Channel`);
+    socket.on('join', (payload) => {
+        if (typeof payload === 'string') {
+            socket.join(payload);
+            console.log(`User ${payload} joined their private Notification Channel`);
+            return;
+        }
+
+        if (payload && payload.userId) {
+            socket.join(payload.userId);
+            console.log(`User ${payload.userId} joined their private Notification Channel`);
+        }
+
+        if (payload && payload.role) {
+            socket.join(`role:${payload.role}`);
+            console.log(`User joined role channel: role:${payload.role}`);
+        }
     });
 
     socket.on('disconnect', () => {
@@ -53,10 +66,12 @@ const authRoutes = require('./routes/auth');
 const batchRoutes = require('./routes/batch');
 const blockchainRoutes = require('./routes/blockchain');
 const seedRoutes = require('./routes/seed');
+const notificationRoutes = require('./routes/notifications');
 app.use('/api/auth', authRoutes);
 app.use('/api/batch', batchRoutes);
 app.use('/api/blockchain', blockchainRoutes);
 app.use('/api/seed', seedRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {

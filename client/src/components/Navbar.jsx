@@ -5,14 +5,13 @@ import toast from 'react-hot-toast';
 import API_URL from '../api/config';
 import logo from '../assets/logo.jpg';
 import ThemeToggle from './ThemeToggle';
-import { Menu, X } from 'lucide-react'; // Import icons
+import { Menu } from 'lucide-react'; // Import icons
 
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
     const [user, setUser] = useState(null);
     const [notifications, setNotifications] = useState([]);
     const [showNotifications, setShowNotifications] = useState(false);
-    const [isMenuOpen, setIsMenuOpen] = useState(false); // Mobile menu state
     const unreadCount = notifications.filter(n => !n.read).length;
     const navigate = useNavigate();
 
@@ -23,14 +22,36 @@ const Navbar = () => {
         const userStr = localStorage.getItem('user');
         if (!userStr) return;
 
-        const user = JSON.parse(userStr);
-        setUser(user);
+        const parsedUser = JSON.parse(userStr);
+        setUser(parsedUser);
 
+        const token = localStorage.getItem('token');
         const socket = io(API_URL);
 
         socket.on('connect', () => {
-            socket.emit('join', user.email);
+            socket.emit('join', { userId: parsedUser.id, role: parsedUser.role });
         });
+
+        const loadNotifications = async () => {
+            if (!token) return;
+            try {
+                const res = await fetch(`${API_URL}/api/notifications`, {
+                    headers: { 'x-auth-token': token }
+                });
+                if (!res.ok) return;
+                const data = await res.json();
+                const normalized = (data.notifications || []).map((n) => ({
+                    ...n,
+                    read: false,
+                    id: n._id || n.id || Date.now()
+                }));
+                setNotifications(normalized.slice(0, 10));
+            } catch (err) {
+                console.error('Failed to load notifications', err);
+            }
+        };
+
+        loadNotifications();
 
         socket.on('notification', (data) => {
             setNotifications(prev => [{ ...data, id: Date.now(), read: false }, ...prev].slice(0, 10));
@@ -73,12 +94,12 @@ const Navbar = () => {
 
             <div className="flex items-center space-x-4 lg:hidden relative z-50">
                 <ThemeToggle />
-                <button 
-                    className="text-secondary p-2"
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                <Link
+                    to="/menu"
+                    className="text-secondary p-2 hover:text-gold transition-colors"
                 >
-                    {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
+                    <Menu size={24} />
+                </Link>
             </div>
 
             {/* Desktop Menu */}
@@ -146,40 +167,7 @@ const Navbar = () => {
             </div>
         </div>
 
-        {/* Mobile Menu Overlay */}
-        <div className={`fixed inset-0 bg-background z-30 flex flex-col items-center justify-start pt-24 space-y-6 md:space-y-8 transition-transform duration-500 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} lg:hidden overflow-y-auto`}>
-            <Link to="/" onClick={() => setIsMenuOpen(false)} className="text-base md:text-xl font-black text-primary hover:text-gold transition-colors">Network Explorer</Link>
-            <Link to="/analytics" onClick={() => setIsMenuOpen(false)} className="text-base md:text-xl font-black text-primary hover:text-gold transition-colors">Network Intelligence</Link>
-            
-            {localStorage.getItem('token') ? (
-                <>
-                    <button
-                        onClick={() => { setShowNotifications(!showNotifications); markAllRead(); }}
-                        className="flex items-center space-x-3 p-3 bg-white/5 rounded-xl border border-border hover:border-gold/50 transition-all w-3/4"
-                    >
-                        <svg className="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-                        <span className="text-sm font-bold text-primary">Notifications {unreadCount > 0 && `(${unreadCount})`}</span>
-                    </button>
-                    
-                    <Link to="/create-batch" onClick={() => setIsMenuOpen(false)} className="text-gold text-sm md:text-base font-bold border border-gold/20 px-6 py-3 rounded-xl bg-gold/5 w-3/4 text-center hover:bg-gold/10 transition-colors">Mint Batch</Link>
-                    <button
-                        onClick={() => {
-                            localStorage.removeItem('token');
-                            localStorage.removeItem('user');
-                            setIsMenuOpen(false);
-                            window.location.href = '/';
-                        }}
-                        className="text-red-400 font-bold text-sm md:text-base uppercase tracking-widest hover:text-red-500 transition-colors"
-                    >
-                        Node Logout
-                    </button>
-                </>
-            ) : (
-                <Link to="/login" onClick={() => setIsMenuOpen(false)} className="bg-gold text-black px-6 py-3 rounded-xl font-black text-sm md:text-base uppercase tracking-widest shadow-xl shadow-gold/20 w-3/4 text-center hover:bg-[#decba4] transition-all">
-                    Secure Access
-                </Link>
-            )}
-        </div>
+        {/* Mobile Menu Overlay - Removed: Now using Menu page */}
         </nav>
     );
 };

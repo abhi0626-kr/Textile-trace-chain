@@ -7,6 +7,7 @@ const multer = require('multer');
 const path = require('path');
 const crypto = require('crypto');
 const fs = require('fs');
+const { ALL_ROLES, emitNotification } = require('../services/notificationService');
 
 // Configure Multer Storage
 const storage = multer.diskStorage({
@@ -107,6 +108,17 @@ router.post('/', auth, async (req, res) => {
             stage: newBatch.stage,
             location: data.location,
             variety: data.variety
+        });
+
+        const io = req.app.get('socketio');
+        await emitNotification({
+            io,
+            type: 'CREATE',
+            msg: `Batch ${newBatch.batchId} created by ${ownerDisplay}.`,
+            batchId: newBatch.batchId,
+            roleTargets: ALL_ROLES,
+            userTargets: [req.user.id],
+            metadata: { stage: newBatch.stage }
         });
 
         res.json({
@@ -347,12 +359,14 @@ router.put('/:id/update', auth, async (req, res) => {
                 toOwner: newOwnerId
             });
 
-            // Emit Real-time Notification for Incoming Control
-            io.to(newOwnerId).emit('notification', {
+            await emitNotification({
+                io,
                 type: 'TRANSFER',
                 msg: `Incoming Control: Batch ${batch.batchId} has been transferred to you.`,
-                timestamp: Date.now(),
-                batchId: batch.batchId
+                batchId: batch.batchId,
+                roleTargets: ALL_ROLES,
+                userTargets: [newOwnerId, req.user.id],
+                metadata: { fromOwner: req.user.id, toOwner: newOwnerId }
             });
         } else {
             // Log stage update
@@ -362,12 +376,13 @@ router.put('/:id/update', auth, async (req, res) => {
                 handler: currentUser ? currentUser.name : req.user.id
             });
 
-            // Emit Broad Notification for interested nodes (simple broad for now or specific targets)
-            io.emit('notification', {
+            await emitNotification({
+                io,
                 type: 'UPDATE',
                 msg: `Ledger Synchronized: Batch ${batch.batchId} updated to ${batch.stage.replace('_', ' ')}.`,
-                timestamp: Date.now(),
-                batchId: batch.batchId
+                batchId: batch.batchId,
+                roleTargets: ALL_ROLES,
+                metadata: { stage: batch.stage }
             });
         }
 
@@ -398,6 +413,16 @@ router.put('/:id/archive', auth, async (req, res) => {
         if (batch.isArchived) {
             blockchainRecord = blockchain.logBatchArchival(batch.batchId);
         }
+
+        const io = req.app.get('socketio');
+        await emitNotification({
+            io,
+            type: batch.isArchived ? 'ARCHIVE' : 'UNARCHIVE',
+            msg: `Batch ${batch.batchId} ${batch.isArchived ? 'archived' : 'unarchived'}.`,
+            batchId: batch.batchId,
+            roleTargets: ALL_ROLES,
+            metadata: { archived: batch.isArchived }
+        });
 
         res.json({
             msg: batch.isArchived ? 'Batch archived' : 'Batch unarchived',
@@ -434,6 +459,16 @@ router.post('/:id/upload', [auth, upload.single('document')], async (req, res) =
 
         batch.documents.push(newDoc);
         await batch.save();
+
+        const io = req.app.get('socketio');
+        await emitNotification({
+            io,
+            type: 'DOCUMENT',
+            msg: `Document uploaded for batch ${batch.batchId}.`,
+            batchId: batch.batchId,
+            roleTargets: ALL_ROLES,
+            metadata: { filename: newDoc.filename }
+        });
 
         // Optional: Log document upload to blockchain
         // blockchain.logDocumentUpload(batch.batchId, newDoc);

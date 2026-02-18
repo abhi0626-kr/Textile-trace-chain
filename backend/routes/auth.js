@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const User = require('../models/User');
+const { emitNotification } = require('../services/notificationService');
 
 // Email Transporter Setup
 const transporter = nodemailer.createTransport({
@@ -40,6 +41,16 @@ router.post('/register', async (req, res) => {
         });
 
         await user.save();
+
+        const io = req.app.get('socketio');
+        await emitNotification({
+            io,
+            type: 'AUTH_REGISTER',
+            msg: `New user registered: ${user.name} (${user.role}).`,
+            roleTargets: [user.role, 'ADMIN'],
+            userTargets: [user.id],
+            metadata: { email: user.email }
+        });
 
         // Send Verification Email
         // Default to localhost if client url not set, for safety
@@ -97,6 +108,16 @@ router.post('/verify-email', async (req, res) => {
         user.isVerified = true;
         user.verificationToken = undefined; // Clear token
         await user.save();
+
+        const io = req.app.get('socketio');
+        await emitNotification({
+            io,
+            type: 'AUTH_VERIFY',
+            msg: `Email verified: ${user.name} (${user.role}).`,
+            roleTargets: [user.role, 'ADMIN'],
+            userTargets: [user.id],
+            metadata: { email: user.email }
+        });
 
         res.json({ msg: 'Email verified successfully! You can now login.' });
     } catch (err) {
@@ -197,6 +218,16 @@ router.post('/login', async (req, res) => {
                 res.json({ token, user: { id: user.id, name: user.name, role: user.role } });
             }
         );
+
+        const io = req.app.get('socketio');
+        await emitNotification({
+            io,
+            type: 'AUTH_LOGIN',
+            msg: `User login: ${user.name} (${user.role}).`,
+            roleTargets: [user.role, 'ADMIN'],
+            userTargets: [user.id],
+            metadata: { email: user.email }
+        });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');

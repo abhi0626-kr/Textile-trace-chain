@@ -7,6 +7,7 @@ import VerifyBatch from './pages/VerifyBatch';
 import VerifyEmail from './pages/VerifyEmail';
 import Login from './pages/Login';
 import Analytics from './pages/Analytics';
+import Menu from './pages/Menu';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/menu" element={<Menu />} />
             <Route path="/create-batch" element={<CreateBatch />} />
             <Route path="/verify/:id" element={<VerifyBatch />} />
             <Route path="/verify-email/:token" element={<VerifyEmail />} />
