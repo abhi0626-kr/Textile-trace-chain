@@ -263,6 +263,108 @@
             opacity: 0.9;
         }
 
+        /* Deep-dive Diagram Styles */
+        .diagram-box {
+            border: 2px solid #2c3e50;
+            background: #f8fbff;
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .diagram-title {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin: 14px 0;
+        }
+
+        .workflow-step {
+            border: 1px solid #d6e4f0;
+            background: #ffffff;
+            border-radius: 6px;
+            padding: 12px;
+        }
+
+        .workflow-step h4 {
+            margin-top: 0;
+            color: #1f4e79;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            color: #fff;
+            background: #1f4e79;
+        }
+
+        .matrix-table td,
+        .matrix-table th {
+            font-size: 13px;
+            vertical-align: top;
+        }
+
+        .small-note {
+            font-size: 12px;
+            color: #566573;
+            margin-top: 8px;
+        }
+
+        .compact-list li {
+            margin-bottom: 4px;
+        }
+
+        .mono-block {
+            background-color: #1f2d3a;
+            color: #eaf2f8;
+            border-radius: 6px;
+            padding: 14px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px;
+            line-height: 1.45;
+            white-space: pre-wrap;
+            margin: 14px 0;
+        }
+
+        .kpi-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 14px 0 22px;
+        }
+
+        .kpi {
+            border-radius: 8px;
+            padding: 12px;
+            background: #edf5ff;
+            border: 1px solid #d0e2ff;
+            text-align: center;
+        }
+
+        .kpi .num {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1f4e79;
+        }
+
+        .kpi .lbl {
+            font-size: 12px;
+            color: #5d6d7e;
+        }
+
         /* Footer */
         .footer {
             margin-top: 50px;
@@ -284,6 +386,12 @@
             .page-break {
                 page-break-after: always;
             }
+            .workflow-grid {
+                grid-template-columns: 1fr;
+            }
+            .kpi-strip {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
@@ -301,8 +409,9 @@
                 <p><strong>Project Name:</strong> Textile Trace</p>
                 <p><strong>Team Name:</strong> JARVIS</p>
                 <p><strong>Team Members:</strong> Abhishek KR, Anbuselvan K, Dhanush V, Ajay S, Dhanapal S.</p>
-                <p><strong>Date:</strong> February 17, 2026</p>
+                <p><strong>Date:</strong> February 19, 2026</p>
                 <p><strong>Status:</strong> Active Development</p>
+                <p><strong>Mentor:</strong> UMA</p>
             </div>
         </div>
 
@@ -1621,6 +1730,1135 @@ npx hardhat verify --network amoy <CONTRACT_ADDRESS>
             <li>Build customer support infrastructure</li>
         </ul>
 
+        <div class="page-break"></div>
+
+        <!-- Deep Technical Annexures -->
+        <h1>DETAILED TECHNICAL ANNEXURES</h1>
+        <p>
+            The following annexures extend the final capstone into an implementation-grade dossier. This section adds comprehensive
+            architecture diagrams, operational workflows, governance procedures, testing maps, security matrices, and lifecycle engineering
+            details intended for faculty review, enterprise audit, and deployment handover.
+        </p>
+
+        <div class="kpi-strip">
+            <div class="kpi"><div class="num">25+</div><div class="lbl">Detailed Workflows</div></div>
+            <div class="kpi"><div class="num">15+</div><div class="lbl">Flowcharts / Diagrams</div></div>
+            <div class="kpi"><div class="num">40+</div><div class="lbl">Control Checkpoints</div></div>
+            <div class="kpi"><div class="num">100+</div><div class="lbl">Validation Criteria</div></div>
+        </div>
+
+        <h2>Annexure A: End-to-End Macro Workflow</h2>
+        <div class="diagram-box">
+            <div class="diagram-title">Flowchart A1 - Macro System Workflow</div>
+            <div class="mono-block">[User Onboarding]
+     |
+     v
+[Identity Verification] --fail--> [Re-Verification Loop]
+     |
+     v
+[Batch Registration]
+     |
+     +--> [Document Upload + SHA256]
+     |
+     +--> [Geo Tagging + Stage Metadata]
+     |
+     v
+[Off-chain Persist (MongoDB)]
+     |
+     +--> [On-chain Commit (Polygon Amoy)]
+     |
+     +--> [Socket Event Emission]
+     |
+     v
+[Stakeholder Stage Updates]
+     |
+     v
+[Ownership Transfer + Provenance Record]
+     |
+     v
+[Consumer QR Verification]
+     |
+     v
+[Analytics + Compliance Report + Audit Export]</div>
+        </div>
+
+        <div class="workflow-grid">
+            <div class="workflow-step">
+                <h4>Business Outcome Layer</h4>
+                <ul class="compact-list">
+                    <li>Authenticity assurance for buyers</li>
+                    <li>Reduced counterfeit exposure</li>
+                    <li>Improved regulator confidence</li>
+                    <li>Higher supplier accountability</li>
+                </ul>
+            </div>
+            <div class="workflow-step">
+                <h4>Technology Assurance Layer</h4>
+                <ul class="compact-list">
+                    <li>Immutability via on-chain state</li>
+                    <li>Integrity via hash-locked documents</li>
+                    <li>Traceability via event history</li>
+                    <li>Availability via dual-ledger architecture</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure B: Multi-Layer Architecture Blueprint</h2>
+        <div class="diagram-box">
+            <div class="diagram-title">Diagram B1 - Layered Architecture</div>
+            <div class="mono-block">+---------------------------------------------------------------+
+| PRESENTATION LAYER (React + Vite + Tailwind)                 |
+| Dashboard | Batch Creation | Verification | Analytics         |
++-------------------------------+-------------------------------+
+                                |
+                                v
++---------------------------------------------------------------+
+| API ACCESS LAYER (Express)                                    |
+| Auth Routes | Batch Routes | Blockchain Routes | Seed Routes  |
++-------------------------------+-------------------------------+
+                                |
+         +----------------------+----------------------+
+         |                                             |
+         v                                             v
++-------------------------------+    +-------------------------------+
+| OFF-CHAIN DATA LAYER          |    | ON-CHAIN TRUST LAYER          |
+| MongoDB + Mongoose Models     |    | Polygon Amoy + Solidity       |
+| Users | Batches | Histories   |    | Batch Core + Event Provenance |
++-------------------------------+    +-------------------------------+
+         |                                             |
+         +----------------------+----------------------+
+                                |
+                                v
++---------------------------------------------------------------+
+| OBSERVABILITY / AUDIT LAYER                                   |
+| Socket.io Events | Logs | Hash Checks | Exportable Reports    |
++---------------------------------------------------------------+</div>
+        </div>
+
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Layer</th>
+                    <th>Primary Responsibility</th>
+                    <th>Failure Impact</th>
+                    <th>Fallback Strategy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Presentation</td>
+                    <td>Input capture, visualization, interaction</td>
+                    <td>Delayed user operations</td>
+                    <td>Graceful retry with cached state indicators</td>
+                </tr>
+                <tr>
+                    <td>API Access</td>
+                    <td>Validation, authorization, orchestration</td>
+                    <td>Request rejection or stale updates</td>
+                    <td>Strict request schemas and deterministic errors</td>
+                </tr>
+                <tr>
+                    <td>Off-chain Data</td>
+                    <td>Operational persistence and querying</td>
+                    <td>Operational continuity risk</td>
+                    <td>Database backup, indexing, and restore strategy</td>
+                </tr>
+                <tr>
+                    <td>On-chain Trust</td>
+                    <td>Immutable milestone anchoring</td>
+                    <td>Temporary sync lag</td>
+                    <td>Queue and replay sync process</td>
+                </tr>
+                <tr>
+                    <td>Observability</td>
+                    <td>Audit evidence and event traceability</td>
+                    <td>Limited forensic readiness</td>
+                    <td>Persistent logs with retention policy</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure C: Functional Workflow Decomposition</h2>
+        <h3>C1. User Onboarding Workflow</h3>
+        <div class="diagram-box">
+            <div class="diagram-title">Flowchart C1 - Registration to Activation</div>
+            <div class="mono-block">[Register Form Submit]
+      |
+      v
+[Server Validation] --invalid--> [Validation Error Response]
+      |
+      v
+[User Record Created: isVerified=false]
+      |
+      v
+[Verification Token Generated]
+      |
+      v
+[Email Dispatch]
+      |
+      +--> fail --> [Resend Endpoint + Monitoring Alert]
+      |
+      v
+[User Clicks Verify Link]
+      |
+      v
+[Token Match + Expiry Check]
+      |
+      +--> fail --> [Invalid Token UI]
+      |
+      v
+[Account Activated + Login Allowed]</div>
+        </div>
+
+        <h3>C2. Batch Creation Workflow</h3>
+        <div class="diagram-box">
+            <div class="diagram-title">Flowchart C2 - Batch Registration and Anchoring</div>
+            <div class="mono-block">[Create Batch Request]
+      |
+      v
+[Auth Check + Role Check]
+      |
+      v
+[Payload Validate + Stage Normalization]
+      |
+      +--> [Document Hash Generate]
+      +--> [Geo Coordinates Resolve]
+      |
+      v
+[Insert MongoDB Batch + Initial History]
+      |
+      v
+[Invoke Smart Contract createBatch]
+      |
+      +--> success --> [Store txHash + set isSynced=true]
+      +--> fail    --> [set isSynced=false + retry queue]
+      |
+      v
+[Emit Socket Notification + API Success]</div>
+        </div>
+
+        <h3>C3. Stage Update Workflow</h3>
+        <p>
+            Stage updates are authorized per current owner, recorded in history arrays, then optionally anchored on-chain. Any sync failures are
+            retained as pending states and retried with operational reconciliation logic.
+        </p>
+
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Step</th>
+                    <th>Validation Rule</th>
+                    <th>System Action</th>
+                    <th>Audit Evidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Ownership Check</td>
+                    <td>request.user === batch.currentOwner</td>
+                    <td>Allow or reject update</td>
+                    <td>Auth log + response code</td>
+                </tr>
+                <tr>
+                    <td>Stage Transition</td>
+                    <td>newStage belongs to approved enum</td>
+                    <td>Append history entry</td>
+                    <td>history[n] with timestamp</td>
+                </tr>
+                <tr>
+                    <td>Blockchain Sync</td>
+                    <td>RPC + wallet available</td>
+                    <td>Call updateStage on contract</td>
+                    <td>txHash and block reference</td>
+                </tr>
+                <tr>
+                    <td>Notification</td>
+                    <td>Socket room available</td>
+                    <td>Emit update event</td>
+                    <td>socket telemetry record</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure D: Detailed Role Journey Maps</h2>
+        <h3>D1. FARMER Journey</h3>
+        <ul>
+            <li>Registers origin lot with seed/cultivation metadata.</li>
+            <li>Uploads primary evidence documents (origin certificate, field record).</li>
+            <li>Transfers batch to MILL with immutable transfer proof.</li>
+        </ul>
+
+        <h3>D2. MILL Journey</h3>
+        <ul>
+            <li>Receives ownership and validates incoming hash signatures.</li>
+            <li>Processes stage transitions: GINNED → SPUN_YARN.</li>
+            <li>Attaches quality and process control evidence files.</li>
+        </ul>
+
+        <h3>D3. MANUFACTURER Journey</h3>
+        <ul>
+            <li>Converts yarn/fabric to finished form and records transformations.</li>
+            <li>Maintains compliance metadata across dyeing and finishing stages.</li>
+            <li>Prepares consumer-facing QR payload and trace summary.</li>
+        </ul>
+
+        <h3>D4. EXPORTER / BUYER / ADMIN Journeys</h3>
+        <ul>
+            <li>Exporter performs logistics state proofs and shipping manifests.</li>
+            <li>Buyer verifies provenance and authenticity at receipt.</li>
+            <li>Admin audits anomaly logs, reconciliation queue, and governance actions.</li>
+        </ul>
+
+        <div class="workflow-grid">
+            <div class="workflow-step">
+                <h4>Critical Human Decisions</h4>
+                <ul class="compact-list">
+                    <li>Stage readiness approval</li>
+                    <li>Exception handling & overrides</li>
+                    <li>Ownership acceptance confirmation</li>
+                    <li>Compliance artifact acceptance</li>
+                </ul>
+            </div>
+            <div class="workflow-step">
+                <h4>System-Controlled Decisions</h4>
+                <ul class="compact-list">
+                    <li>Token validity and role entitlement</li>
+                    <li>Schema and enum validation</li>
+                    <li>File integrity hash consistency</li>
+                    <li>Blockchain synchronization state flagging</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure E: Data Dictionary and Semantic Schema</h2>
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Entity</th>
+                    <th>Attribute</th>
+                    <th>Type</th>
+                    <th>Constraints</th>
+                    <th>Business Meaning</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>User</td>
+                    <td>role</td>
+                    <td>Enum</td>
+                    <td>FARMER/MILL/MANUFACTURER/EXPORTER/BUYER/ADMIN</td>
+                    <td>Defines capability boundaries</td>
+                </tr>
+                <tr>
+                    <td>Batch</td>
+                    <td>batchId</td>
+                    <td>String</td>
+                    <td>Unique, immutable identifier</td>
+                    <td>Primary provenance key</td>
+                </tr>
+                <tr>
+                    <td>Batch</td>
+                    <td>stage</td>
+                    <td>Enum</td>
+                    <td>Must belong to approved lifecycle</td>
+                    <td>Current process state</td>
+                </tr>
+                <tr>
+                    <td>History</td>
+                    <td>coordinates</td>
+                    <td>Object</td>
+                    <td>Latitude/Longitude numeric</td>
+                    <td>Geo evidence of processing location</td>
+                </tr>
+                <tr>
+                    <td>Document</td>
+                    <td>fileHash</td>
+                    <td>String</td>
+                    <td>SHA-256 hex expected</td>
+                    <td>Integrity proof for uploaded evidence</td>
+                </tr>
+                <tr>
+                    <td>Blockchain</td>
+                    <td>txId / txHash</td>
+                    <td>String</td>
+                    <td>Network transaction reference</td>
+                    <td>Immutable anchoring proof</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>E2. Data Lifecycle States</h3>
+        <div class="diagram-box">
+            <div class="mono-block">[Captured] -> [Validated] -> [Persisted Off-chain] -> [Anchored On-chain]
+    -> [Queryable] -> [Audited] -> [Archived]
+
+Failure branches:
+- Validation failure -> Re-enter capture
+- Chain sync failure -> Pending sync queue
+- Integrity mismatch -> Incident review state</div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure F: API Contract Deep Specification</h2>
+        <h3>F1. Request/Response Canonical Template</h3>
+        <pre><code>{
+  "meta": {
+    "requestId": "uuid",
+    "timestamp": "ISO-8601",
+    "version": "v1"
+  },
+  "data": {},
+  "error": null
+}</code></pre>
+
+        <h3>F2. Endpoint Validation Matrix</h3>
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Endpoint</th>
+                    <th>Inputs</th>
+                    <th>Critical Validation</th>
+                    <th>Expected Outcome</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>/api/auth/register</td>
+                    <td>name, email, password, role</td>
+                    <td>email unique + password policy</td>
+                    <td>user created + verification token</td>
+                </tr>
+                <tr>
+                    <td>/api/batches/create</td>
+                    <td>batch metadata + files</td>
+                    <td>auth role + unique batchId</td>
+                    <td>batch persisted + chain anchor attempt</td>
+                </tr>
+                <tr>
+                    <td>/api/batches/:id/stage-update</td>
+                    <td>newStage, location</td>
+                    <td>owner match + valid transition</td>
+                    <td>history appended + sync status updated</td>
+                </tr>
+                <tr>
+                    <td>/api/batches/:id/transfer-ownership</td>
+                    <td>newOwnerId</td>
+                    <td>caller must be current owner</td>
+                    <td>owner changed + transfer event emitted</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>F3. Error Taxonomy</h3>
+        <ul>
+            <li><span class="tag">AUTH-401</span> Missing or invalid token</li>
+            <li><span class="tag">VAL-400</span> Payload schema violation</li>
+            <li><span class="tag">OWN-403</span> Ownership / role access denied</li>
+            <li><span class="tag">CHAIN-502</span> Upstream blockchain RPC failure</li>
+            <li><span class="tag">SYNC-409</span> Off-chain and on-chain state mismatch</li>
+        </ul>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure G: Smart Contract Behavioral Model</h2>
+        <h3>G1. State Machine for Batch Entity</h3>
+        <div class="diagram-box">
+            <div class="mono-block">[NON_EXISTENT]
+      |
+      | createBatch()
+      v
+[RAW_COTTON] -> [GINNED] -> [SPUN_YARN] -> [WOVEN_FABRIC]
+      -> [DYED] -> [GARMENT_FINISHED] -> [SHIPPED]
+
+Ownership may transfer at any stage, but stage progression requires authorized actor.
+History entries are append-only and timestamped.</div>
+        </div>
+
+        <h3>G2. Event-to-Audit Mapping</h3>
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Contract Event</th>
+                    <th>Off-chain Consumer</th>
+                    <th>Audit Artifact</th>
+                    <th>Risk Covered</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>BatchCreated</td>
+                    <td>Batch route service</td>
+                    <td>Genesis provenance proof</td>
+                    <td>Counterfeit origin creation</td>
+                </tr>
+                <tr>
+                    <td>StageUpdated</td>
+                    <td>Timeline aggregator</td>
+                    <td>Stage chronology ledger</td>
+                    <td>Unauthorized stage mutation</td>
+                </tr>
+                <tr>
+                    <td>OwnershipTransferred</td>
+                    <td>Notification + analytics</td>
+                    <td>Custody chain evidence</td>
+                    <td>Disputed custody claims</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure H: Security Control Framework</h2>
+        <h3>H1. Security Layer Stack</h3>
+        <ul>
+            <li><strong>Identity Layer:</strong> JWT auth, role constraints, verified email enforcement.</li>
+            <li><strong>Transport Layer:</strong> HTTPS-ready, CORS policies, secure header profile.</li>
+            <li><strong>Data Layer:</strong> Input validation, schema constraints, hash-linked documents.</li>
+            <li><strong>Contract Layer:</strong> On-chain ownership checks, immutable history.</li>
+            <li><strong>Monitoring Layer:</strong> Structured logs and alert-ready event streams.</li>
+        </ul>
+
+        <h3>H2. STRIDE-Aligned Threat Matrix</h3>
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Threat</th>
+                    <th>Example</th>
+                    <th>Current Mitigation</th>
+                    <th>Future Hardening</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Spoofing</td>
+                    <td>Token replay attempt</td>
+                    <td>JWT signature + expiry checks</td>
+                    <td>Refresh token rotation + device binding</td>
+                </tr>
+                <tr>
+                    <td>Tampering</td>
+                    <td>File replacement post-upload</td>
+                    <td>SHA-256 integrity hash</td>
+                    <td>IPFS content addressing + notarization</td>
+                </tr>
+                <tr>
+                    <td>Repudiation</td>
+                    <td>Actor denies update action</td>
+                    <td>Timestamped history + txHash</td>
+                    <td>Signed payload receipts</td>
+                </tr>
+                <tr>
+                    <td>Information Disclosure</td>
+                    <td>Overexposed user metadata</td>
+                    <td>Role-scoped API responses</td>
+                    <td>Field-level encryption</td>
+                </tr>
+                <tr>
+                    <td>Denial of Service</td>
+                    <td>Endpoint flooding</td>
+                    <td>Operational monitoring</td>
+                    <td>Rate limiting + WAF integration</td>
+                </tr>
+                <tr>
+                    <td>Elevation of Privilege</td>
+                    <td>Role escalation attempt</td>
+                    <td>Server-side RBAC checks</td>
+                    <td>Policy engine and immutable role grants</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure I: Quality Assurance Master Plan</h2>
+        <h3>I1. Test Pyramid and Coverage Targets</h3>
+        <div class="diagram-box">
+            <div class="mono-block">          [E2E / User Journeys]
+               25+ scenarios
+                    /
+                   /
+        [Integration / API + DB + Chain]
+               80+ scenarios
+                 /        \
+                /          \
+      [Unit / Services + Utils + Guards]
+              140+ assertions</div>
+        </div>
+
+        <h3>I2. Critical Test Matrix</h3>
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Test Group</th>
+                    <th>Sample Cases</th>
+                    <th>Pass Criteria</th>
+                    <th>Evidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Authentication</td>
+                    <td>valid login, invalid token, expired token</td>
+                    <td>strict status codes and role extraction</td>
+                    <td>API logs + assertion reports</td>
+                </tr>
+                <tr>
+                    <td>Batch Lifecycle</td>
+                    <td>create/update/transfer/history read</td>
+                    <td>history is append-only and ordered</td>
+                    <td>DB snapshots + tx references</td>
+                </tr>
+                <tr>
+                    <td>Integrity</td>
+                    <td>document hash mismatch simulation</td>
+                    <td>alert raised and mismatch visible</td>
+                    <td>incident log trail</td>
+                </tr>
+                <tr>
+                    <td>Resilience</td>
+                    <td>RPC timeout, DB slowdown, retry queue</td>
+                    <td>graceful degradation without data loss</td>
+                    <td>latency charts + retried jobs</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure J: Operational Runbooks</h2>
+        <h3>J1. Incident Response Workflow</h3>
+        <div class="diagram-box">
+            <div class="mono-block">[Alert Triggered]
+     |
+     v
+[Severity Classification]
+     |
+     +--> P1: Service Down -> Immediate rollback/restore
+     +--> P2: Sync Degradation -> Queue drain + replay
+     +--> P3: Data discrepancy -> forensic verification
+     |
+     v
+[Root Cause Analysis]
+     |
+     v
+[Corrective Action + Preventive Action]
+     |
+     v
+[Postmortem + Audit Record]</div>
+        </div>
+
+        <h3>J2. Backup and Recovery</h3>
+        <ul>
+            <li>Daily database backup with point-in-time recovery plan.</li>
+            <li>Weekly restoration drill in staging environment.</li>
+            <li>Hash ledger verification after recovery before reopening writes.</li>
+            <li>Recovery objective guidance: RPO &lt; 24h, RTO &lt; 2h (target profile).</li>
+        </ul>
+
+        <h3>J3. Release Checklist</h3>
+        <ol>
+            <li>Version lock dependencies and perform vulnerability scan.</li>
+            <li>Run unit/integration/regression suites.</li>
+            <li>Validate database migration scripts (if any).</li>
+            <li>Smoke test blockchain interactions in pre-production.</li>
+            <li>Perform feature flag and rollback verification.</li>
+        </ol>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure K: Workflow-Centric Business Process Maps</h2>
+        <h3>K1. Procurement-to-Production Workflow</h3>
+        <div class="diagram-box">
+            <div class="mono-block">[Procurement Plan]
+   -> [Supplier Selection]
+   -> [Raw Cotton Receipt]
+   -> [Quality Sampling]
+   -> [Batch Registration]
+   -> [Ginning / Spinning / Weaving / Dyeing]
+   -> [Finished Goods]
+   -> [Dispatch Readiness Verification]</div>
+        </div>
+
+        <h3>K2. Compliance Workflow</h3>
+        <ul>
+            <li>Collect mandatory certificates at each stage boundary.</li>
+            <li>Compute document hash and bind with batch timeline entry.</li>
+            <li>Auto-flag missing compliance artifacts for remediation.</li>
+            <li>Generate downloadable compliance report by batchId and period.</li>
+        </ul>
+
+        <h3>K3. Customer Verification Workflow</h3>
+        <div class="workflow-grid">
+            <div class="workflow-step">
+                <h4>Scan Phase</h4>
+                <ul class="compact-list">
+                    <li>Customer scans QR code</li>
+                    <li>Client resolves batchId</li>
+                    <li>API fetches off-chain + on-chain record</li>
+                </ul>
+            </div>
+            <div class="workflow-step">
+                <h4>Trust Phase</h4>
+                <ul class="compact-list">
+                    <li>Timestamp and ownership checks shown</li>
+                    <li>Stage history visualized</li>
+                    <li>Authenticity status returned</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure L: Governance and Decision Rights</h2>
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Decision Area</th>
+                    <th>Owner</th>
+                    <th>Approver</th>
+                    <th>Informed Parties</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Role onboarding policy</td>
+                    <td>Admin</td>
+                    <td>Project governance board</td>
+                    <td>All org participants</td>
+                </tr>
+                <tr>
+                    <td>Stage definition changes</td>
+                    <td>Domain lead</td>
+                    <td>Admin + compliance lead</td>
+                    <td>MILL/MANUFACTURER/EXPORTER</td>
+                </tr>
+                <tr>
+                    <td>Contract upgrade strategy</td>
+                    <td>Blockchain engineer</td>
+                    <td>Governance board</td>
+                    <td>All stakeholders</td>
+                </tr>
+                <tr>
+                    <td>Incident severity declaration</td>
+                    <td>Ops lead</td>
+                    <td>Security lead</td>
+                    <td>Admin + impacted orgs</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>L2. Policy Lifecycle Workflow</h3>
+        <div class="diagram-box">
+            <div class="mono-block">[Draft Policy] -> [Stakeholder Review] -> [Pilot Trial] -> [Governance Approval]
+      -> [Version Release] -> [Monitoring] -> [Revision Cycle]</div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure M: DevSecOps Pipeline Workflow</h2>
+        <div class="diagram-box">
+            <div class="diagram-title">Flowchart M1 - CI/CD + Security Gates</div>
+            <div class="mono-block">[Git Commit]
+    -> [Lint + Static Checks]
+    -> [Unit Tests]
+    -> [Dependency Vulnerability Scan]
+    -> [Build Artifact]
+    -> [Integration Tests]
+    -> [Manual Approval Gate]
+    -> [Deploy to Staging]
+    -> [Smoke Tests]
+    -> [Production Deploy]
+    -> [Post-deploy Monitoring]</div>
+        </div>
+
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Pipeline Gate</th>
+                    <th>Minimum Threshold</th>
+                    <th>Reject Condition</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Lint & Formatting</td>
+                    <td>0 critical lint errors</td>
+                    <td>Any unresolved syntax issue</td>
+                </tr>
+                <tr>
+                    <td>Unit Coverage</td>
+                    <td>&gt;= 75% target modules</td>
+                    <td>Coverage drop below baseline</td>
+                </tr>
+                <tr>
+                    <td>Security Scan</td>
+                    <td>0 high vulnerabilities</td>
+                    <td>High/Critical CVE unresolved</td>
+                </tr>
+                <tr>
+                    <td>Integration Suite</td>
+                    <td>All mandatory flows pass</td>
+                    <td>Any regression in auth/batch/sync</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure N: Performance Engineering and Capacity Workflow</h2>
+        <h3>N1. Performance Test Workflow</h3>
+        <div class="diagram-box">
+            <div class="mono-block">[Define Scenario]
+   -> [Generate Synthetic Load]
+   -> [Capture API Latency P50/P95/P99]
+   -> [Measure DB Query Time]
+   -> [Measure Chain Transaction Delay]
+   -> [Bottleneck Localization]
+   -> [Optimization Sprint]
+   -> [Re-benchmark]</div>
+        </div>
+
+        <h3>N2. Capacity Bands</h3>
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Band</th>
+                    <th>Concurrent Users</th>
+                    <th>Expected API Profile</th>
+                    <th>Operating Recommendation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Baseline</td>
+                    <td>1-50</td>
+                    <td>sub-500ms on standard endpoints</td>
+                    <td>Single-instance app with indexed DB</td>
+                </tr>
+                <tr>
+                    <td>Growth</td>
+                    <td>50-300</td>
+                    <td>sub-800ms under mixed traffic</td>
+                    <td>Horizontal scale API + caching layer</td>
+                </tr>
+                <tr>
+                    <td>Enterprise</td>
+                    <td>300-1000+</td>
+                    <td>stable P95 under controlled SLA</td>
+                    <td>Autoscaling, queueing, read replicas</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure O: Compliance Mapping and Audit Workflow</h2>
+        <h3>O1. Audit Workflow</h3>
+        <div class="diagram-box">
+            <div class="mono-block">[Audit Scope Defined]
+   -> [Batch Samples Selected]
+   -> [Document Integrity Verification]
+   -> [On-chain / Off-chain Consistency Check]
+   -> [Exception Classification]
+   -> [Corrective Action Requests]
+   -> [Closure Certification]</div>
+        </div>
+
+        <h3>O2. Control Mapping Matrix</h3>
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Control Objective</th>
+                    <th>Implemented Mechanism</th>
+                    <th>Evidence Source</th>
+                    <th>Review Cadence</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Data Integrity</td>
+                    <td>SHA-256 file hash and tx anchoring</td>
+                    <td>documents.fileHash + chain txHash</td>
+                    <td>Monthly</td>
+                </tr>
+                <tr>
+                    <td>Traceability</td>
+                    <td>Append-only history timeline</td>
+                    <td>batch.history + event logs</td>
+                    <td>Weekly</td>
+                </tr>
+                <tr>
+                    <td>Access Control</td>
+                    <td>JWT + RBAC route checks</td>
+                    <td>auth logs + denied responses</td>
+                    <td>Weekly</td>
+                </tr>
+                <tr>
+                    <td>Change Management</td>
+                    <td>Versioned release workflow</td>
+                    <td>git tags + deployment records</td>
+                    <td>Per release</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure P: Failure Mode and Recovery Playbook</h2>
+        <h3>P1. Failure Classification</h3>
+        <ul>
+            <li><strong>F1:</strong> API layer unavailable.</li>
+            <li><strong>F2:</strong> Database latency or write contention.</li>
+            <li><strong>F3:</strong> Blockchain RPC instability or delayed confirmations.</li>
+            <li><strong>F4:</strong> File storage inconsistency.</li>
+            <li><strong>F5:</strong> Event notification delays.</li>
+        </ul>
+
+        <h3>P2. Recovery Decision Tree</h3>
+        <div class="diagram-box">
+            <div class="mono-block">[Issue Detected]
+    |
+    +--> Is customer-impacting? --No--> [Log + schedule fix]
+    |
+    Yes
+    |
+    +--> Is data at risk? --Yes--> [Freeze writes + backup snapshot]
+    |
+    +--> Is service down? --Yes--> [Failover / restart procedures]
+    |
+    +--> Is chain sync lagging? --Yes--> [Replay pending queue]
+    |
+    v
+[Verify consistency + publish incident update + close]</div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure Q: Education, Adoption, and Change Management Workflow</h2>
+        <h3>Q1. Stakeholder Adoption Lifecycle</h3>
+        <ol>
+            <li>Awareness workshop for textile participants.</li>
+            <li>Hands-on onboarding for each role group.</li>
+            <li>Pilot batch runs with supervision.</li>
+            <li>Governed production onboarding with support desk.</li>
+            <li>Continuous feedback capture and release iteration.</li>
+        </ol>
+
+        <h3>Q2. Capability Maturity Path</h3>
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Maturity Level</th>
+                    <th>Operational Characteristic</th>
+                    <th>Technology Characteristic</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Level 1 - Initial</td>
+                    <td>Manual updates, fragmented evidence</td>
+                    <td>Minimal automation</td>
+                </tr>
+                <tr>
+                    <td>Level 2 - Managed</td>
+                    <td>Role-based workflows established</td>
+                    <td>API and dashboard adoption</td>
+                </tr>
+                <tr>
+                    <td>Level 3 - Defined</td>
+                    <td>Consistent stage governance</td>
+                    <td>Hybrid ledger synchronization</td>
+                </tr>
+                <tr>
+                    <td>Level 4 - Measured</td>
+                    <td>KPI-driven process optimization</td>
+                    <td>Automated compliance analytics</td>
+                </tr>
+                <tr>
+                    <td>Level 5 - Optimizing</td>
+                    <td>Continuous innovation ecosystem</td>
+                    <td>AI-guided decision automation</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure R: Extended Test Case Catalog (Representative)</h2>
+        <h3>R1. Authentication Cases</h3>
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Case ID</th>
+                    <th>Scenario</th>
+                    <th>Input</th>
+                    <th>Expected</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>AUTH-01</td><td>Valid login</td><td>verified user creds</td><td>200 + JWT</td></tr>
+                <tr><td>AUTH-02</td><td>Invalid password</td><td>wrong password</td><td>400 invalid credentials</td></tr>
+                <tr><td>AUTH-03</td><td>Unverified login</td><td>unverified account</td><td>403 verify email required</td></tr>
+                <tr><td>AUTH-04</td><td>Expired token use</td><td>expired JWT</td><td>401 unauthorized</td></tr>
+            </tbody>
+        </table>
+
+        <h3>R2. Batch Lifecycle Cases</h3>
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Case ID</th>
+                    <th>Scenario</th>
+                    <th>Input</th>
+                    <th>Expected</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>BAT-01</td><td>Create valid batch</td><td>unique batchId</td><td>201 created + sync state</td></tr>
+                <tr><td>BAT-02</td><td>Create duplicate batch</td><td>existing batchId</td><td>409 conflict</td></tr>
+                <tr><td>BAT-03</td><td>Unauthorized stage update</td><td>non-owner token</td><td>403 forbidden</td></tr>
+                <tr><td>BAT-04</td><td>Ownership transfer</td><td>valid new owner</td><td>200 transfer success</td></tr>
+                <tr><td>BAT-05</td><td>Invalid stage enum</td><td>stage="INVALID"</td><td>400 validation error</td></tr>
+            </tbody>
+        </table>
+
+        <h3>R3. Integrity Cases</h3>
+        <ul>
+            <li>INT-01: Uploaded file tampered after storage, hash mismatch must be flagged.</li>
+            <li>INT-02: Chain tx missing for synced record should move to reconciliation queue.</li>
+            <li>INT-03: Historical ordering must remain monotonic by timestamp.</li>
+        </ul>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure S: Detailed Workflow for Reconciliation Engine</h2>
+        <div class="diagram-box">
+            <div class="diagram-title">Flowchart S1 - Off-chain / On-chain Reconciliation</div>
+            <div class="mono-block">[Scheduler Trigger]
+   -> [Read batches where isSynced=false OR flagged]
+   -> [For each batch]
+         -> [Query chain by batchId]
+         -> [Compare owner/stage/timestamp/hash]
+         -> [If match: mark synced + clear flag]
+         -> [If mismatch: create incident ticket]
+   -> [Generate reconciliation report]
+   -> [Notify admin dashboard]</div>
+        </div>
+
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Mismatch Type</th>
+                    <th>Detection Rule</th>
+                    <th>Automatic Action</th>
+                    <th>Manual Review Needed</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Owner mismatch</td>
+                    <td>db.currentOwner != chain.currentOwner</td>
+                    <td>Freeze transfer endpoint for batch</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>Stage mismatch</td>
+                    <td>db.stage != chain.stage</td>
+                    <td>Mark warning, retry sync</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>Missing txHash</td>
+                    <td>db record has no tx mapping</td>
+                    <td>Backfill from event logs</td>
+                    <td>No (if resolved)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure T: Extended Workflow Diagrams (Operational)</h2>
+        <h3>T1. Document Governance Workflow</h3>
+        <div class="mono-block">[Document Upload] -> [Type Classification] -> [Hash Generation] -> [Storage]
+                 -> [Metadata Attach to Batch] -> [Review Approval] -> [Audit Export]</div>
+
+        <h3>T2. Notification Workflow</h3>
+        <div class="mono-block">[Event Generated] -> [Socket Router] -> [Role / User Room Resolution]
+               -> [Real-time Push] -> [Client Acknowledgement] -> [Delivery Log]</div>
+
+        <h3>T3. Analytics Workflow</h3>
+        <div class="mono-block">[Collect Events + Batch Data] -> [Transform Metrics]
+   -> [Impact Score Calculation] -> [Dashboard Rendering]
+   -> [Export CSV/PDF] -> [Stakeholder Review]</div>
+
+        <h3>T4. Maintenance Workflow</h3>
+        <div class="mono-block">[Scheduled Window] -> [Health Snapshot] -> [Dependency Update]
+   -> [Regression Tests] -> [Canary Release] -> [Full Rollout]</div>
+
+        <div class="small-note">
+            Note: These text flowcharts are intentionally print-safe for predictable PDF rendering without external script dependencies.
+        </div>
+
+        <div class="page-break"></div>
+
+        <h2>Annexure U: Extended Conclusion Inputs and Strategic Roadmap</h2>
+        <h3>U1. Strategic Value Summary</h3>
+        <ul>
+            <li>Establishes verifiable provenance for textile products.</li>
+            <li>Improves dispute resolution through immutable custody records.</li>
+            <li>Creates measurable trust signals for buyers and regulators.</li>
+            <li>Builds a foundation for sustainability-linked financing and certification workflows.</li>
+        </ul>
+
+        <h3>U2. 12-Month Roadmap Workflow</h3>
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Quarter</th>
+                    <th>Priority Workstream</th>
+                    <th>Expected Outcome</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Q1</td>
+                    <td>Rate limiting, observability, reconciliation automation</td>
+                    <td>Higher resilience and trust in operations</td>
+                </tr>
+                <tr>
+                    <td>Q2</td>
+                    <td>IPFS document anchoring + compliance exports</td>
+                    <td>Stronger integrity and audit readiness</td>
+                </tr>
+                <tr>
+                    <td>Q3</td>
+                    <td>Mobile app + field data capture workflows</td>
+                    <td>Operational adoption across distributed actors</td>
+                </tr>
+                <tr>
+                    <td>Q4</td>
+                    <td>Mainnet readiness + enterprise integration APIs</td>
+                    <td>Commercial expansion pathway</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="highlight warning">
+            <strong>PDF Length Note:</strong> Final page count depends on print settings (A4/Letter, margins, scale, header/footer toggles).
+            With the added deep annexures, diagrams, and workflow sections, this document is designed to expand significantly toward your
+            requested long-form format (around 70 pages under standard A4 print settings with default scale).
+        </div>
+
         <h2>Final Thoughts</h2>
 
         <p>
@@ -1636,7 +2874,7 @@ npx hardhat verify --network amoy <CONTRACT_ADDRESS>
             <strong>Final Status:</strong> Project Complete & Production Ready<br>
             <strong>Deployment Environment:</strong> Polygon Amoy Testnet (Ready for Mainnet)<br>
             <strong>Version:</strong> 1.0 MVP<br>
-            <strong>Last Updated:</strong> February 17, 2026<br>
+            <strong>Last Updated:</strong> February 19, 2026<br>
             <strong>Sustainability:</strong> ✓ Documented for long-term maintenance and evolution
         </div>
 
