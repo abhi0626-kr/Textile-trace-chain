@@ -6,6 +6,7 @@ import API_URL from '../api/config';
 
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true);
+    const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -117,15 +118,24 @@ const Login = () => {
                     </div>
                     <div>
                         <label className="block text-[10px] font-black uppercase tracking-widest text-secondary mb-2">Cryptographic Key (Password)</label>
-                        <input
-                            type="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            className="w-full bg-background border-2 border-border p-3 sm:p-4 rounded-xl sm:rounded-2xl focus:border-gold transition-all font-bold text-primary placeholder:text-secondary outline-none text-sm sm:text-base"
-                            placeholder="••••••••"
-                            required
-                        />
+                        <div className="relative">
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                className="w-full bg-background border-2 border-border p-3 sm:p-4 pr-16 rounded-xl sm:rounded-2xl focus:border-gold transition-all font-bold text-primary placeholder:text-secondary outline-none text-sm sm:text-base"
+                                placeholder="••••••••"
+                                required
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gold text-[10px] font-black uppercase tracking-wider hover:text-[#decba4] transition-colors"
+                            >
+                                {showPassword ? 'Hide' : 'Show'}
+                            </button>
+                        </div>
                     </div>
 
                     <button className="w-full bg-gold text-black py-4 sm:py-5 rounded-xl sm:rounded-2xl font-black uppercase tracking-widest hover:bg-[#decba4] transition-all shadow-xl shadow-gold/10 mt-6 sm:mt-8 text-sm sm:text-base">
