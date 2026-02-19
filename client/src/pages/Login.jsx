@@ -41,7 +41,9 @@ const Login = () => {
             }
         } catch (err) {
             console.error(err);
-            const errorMsg = err.response?.data?.msg || 'Something went wrong';
+            const errorMsg = err.code === 'ERR_NETWORK'
+                ? `Backend unreachable (${API_URL}). Please check deployment environment variables.`
+                : (err.response?.data?.msg || 'Something went wrong');
             toast.error(`${isLogin ? 'Login' : 'Registration'} Failed: ${errorMsg}`);
         }
     };
