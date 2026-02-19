@@ -39,7 +39,7 @@ const Menu = () => {
                 >
                     <div className="flex flex-col items-start">
                         <span className="text-[10px] font-black text-gold uppercase tracking-[0.3em] mb-2">Navigation</span>
-                        <h2 className="text-2xl md:text-3xl font-black text-primary tracking-tighter">Network Explorer</h2>
+                        <h2 className="text-2xl md:text-3xl font-black text-primary tracking-tighter">Dashboard</h2>
                         <p className="text-sm text-secondary mt-2">View supply chain dashboard</p>
                     </div>
                 </button>
@@ -52,6 +52,50 @@ const Menu = () => {
                         <span className="text-[10px] font-black text-gold uppercase tracking-[0.3em] mb-2">Analytics</span>
                         <h2 className="text-2xl md:text-3xl font-black text-primary tracking-tighter">Network Intelligence</h2>
                         <p className="text-sm text-secondary mt-2">Real-time network statistics</p>
+                    </div>
+                </button>
+
+                <button
+                    onClick={() => handleNavigation('/explorer')}
+                    className="w-full max-w-sm px-6 py-6 md:py-8 bg-gradient-to-br from-white/10 to-white/5 border border-border rounded-2xl hover:border-gold hover:bg-gradient-to-br hover:from-gold/10 hover:to-gold/5 transition-all shadow-lg hover:shadow-gold/20"
+                >
+                    <div className="flex flex-col items-start">
+                        <span className="text-[10px] font-black text-gold uppercase tracking-[0.3em] mb-2">Public</span>
+                        <h2 className="text-2xl md:text-3xl font-black text-primary tracking-tighter">Batch Explorer</h2>
+                        <p className="text-sm text-secondary mt-2">Verify any batch without login</p>
+                    </div>
+                </button>
+
+                <button
+                    onClick={() => handleNavigation('/health')}
+                    className="w-full max-w-sm px-6 py-6 md:py-8 bg-gradient-to-br from-white/10 to-white/5 border border-border rounded-2xl hover:border-gold hover:bg-gradient-to-br hover:from-gold/10 hover:to-gold/5 transition-all shadow-lg hover:shadow-gold/20"
+                >
+                    <div className="flex flex-col items-start">
+                        <span className="text-[10px] font-black text-gold uppercase tracking-[0.3em] mb-2">Monitoring</span>
+                        <h2 className="text-2xl md:text-3xl font-black text-primary tracking-tighter">System Health</h2>
+                        <p className="text-sm text-secondary mt-2">View API, DB, and chain status</p>
+                    </div>
+                </button>
+
+                <button
+                    onClick={() => handleNavigation('/security')}
+                    className="w-full max-w-sm px-6 py-6 md:py-8 bg-gradient-to-br from-white/10 to-white/5 border border-border rounded-2xl hover:border-gold hover:bg-gradient-to-br hover:from-gold/10 hover:to-gold/5 transition-all shadow-lg hover:shadow-gold/20"
+                >
+                    <div className="flex flex-col items-start">
+                        <span className="text-[10px] font-black text-gold uppercase tracking-[0.3em] mb-2">Security</span>
+                        <h2 className="text-2xl md:text-3xl font-black text-primary tracking-tighter">Security</h2>
+                        <p className="text-sm text-secondary mt-2">View security and compliance controls</p>
+                    </div>
+                </button>
+
+                <button
+                    onClick={() => handleNavigation('/sustainability')}
+                    className="w-full max-w-sm px-6 py-6 md:py-8 bg-gradient-to-br from-white/10 to-white/5 border border-border rounded-2xl hover:border-gold hover:bg-gradient-to-br hover:from-gold/10 hover:to-gold/5 transition-all shadow-lg hover:shadow-gold/20"
+                >
+                    <div className="flex flex-col items-start">
+                        <span className="text-[10px] font-black text-gold uppercase tracking-[0.3em] mb-2">ESG</span>
+                        <h2 className="text-2xl md:text-3xl font-black text-primary tracking-tighter">Sustainability</h2>
+                        <p className="text-sm text-secondary mt-2">View impact and ESG insights</p>
                     </div>
                 </button>
 

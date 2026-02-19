@@ -9,6 +9,20 @@ const crypto = require('crypto');
 const fs = require('fs');
 const { ALL_ROLES, emitNotification } = require('../services/notificationService');
 
+const enrichBatchWithBlockchain = (batchObj) => {
+    const latestHistory = Array.isArray(batchObj.history) && batchObj.history.length > 0
+        ? batchObj.history[batchObj.history.length - 1]
+        : null;
+
+    batchObj.blockchain = {
+        syncStatus: batchObj.isSynced ? 'VERIFIED' : 'PENDING',
+        latestTxHash: latestHistory?.txId || null,
+        lastSyncedAt: latestHistory?.timestamp || batchObj.updatedAt || null
+    };
+
+    return batchObj;
+};
+
 // Configure Multer Storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -110,6 +124,12 @@ router.post('/', auth, async (req, res) => {
             variety: data.variety
         });
 
+        newBatch.isSynced = true;
+        if (newBatch.history.length > 0) {
+            newBatch.history[newBatch.history.length - 1].txId = blockchainRecord.transactionHash;
+        }
+        await newBatch.save();
+
         const io = req.app.get('socketio');
         await emitNotification({
             io,
@@ -180,7 +200,7 @@ router.get('/', auth, async (req, res) => {
                 return h;
             }));
 
-            return batchObj;
+            return enrichBatchWithBlockchain(batchObj);
         }));
 
         res.json(resolvedBatches);
@@ -267,7 +287,7 @@ router.get('/:id', async (req, res) => {
             return h;
         }));
 
-        res.json(batchObj);
+        res.json(enrichBatchWithBlockchain(batchObj));
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -346,8 +366,6 @@ router.put('/:id/update', auth, async (req, res) => {
             coordinates: getCoordinates((data && data.location) ? data.location : batch.data.location)
         });
 
-        await batch.save();
-
         // Log to blockchain
         let blockchainRecord;
         const io = req.app.get('socketio');
@@ -385,6 +403,12 @@ router.put('/:id/update', auth, async (req, res) => {
                 metadata: { stage: batch.stage }
             });
         }
+
+        batch.isSynced = true;
+        if (batch.history.length > 0) {
+            batch.history[batch.history.length - 1].txId = blockchainRecord.transactionHash;
+        }
+        await batch.save();
 
         res.json({
             ...batch.toObject(),

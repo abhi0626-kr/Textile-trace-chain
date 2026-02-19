@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import API_URL from '../api/config';
 import QRCode from 'react-qr-code';
 import QRScanner from '../components/QRScanner';
 import { motion } from 'framer-motion';
+import BlockchainStatusBadge from '../components/BlockchainStatusBadge';
 
 const Dashboard = () => {
     const [user, setUser] = useState(null);
@@ -21,7 +22,13 @@ const Dashboard = () => {
     const [isUploadOpen, setIsUploadOpen] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploading, setUploading] = useState(false);
-    const navigate = useNavigate();
+
+    const getImpactScore = (variety) => {
+        const value = (variety || '').toLowerCase();
+        if (value.includes('organic')) return 96;
+        if (value.includes('recycled')) return 92;
+        return 65;
+    };
 
     const handleUpload = async () => {
         if (!selectedFile) return toast.error("Please select a file first");
@@ -107,6 +114,23 @@ const Dashboard = () => {
         }
     };
 
+    const totalBatches = batches.length;
+    const activeTransfers = batches.filter((batch) => !batch.isArchived && batch.stage !== 'SHIPPED').length;
+    const verifiedCount = batches.filter((batch) => batch.isSynced).length;
+    const verifiedPercent = totalBatches ? Math.round((verifiedCount / totalBatches) * 100) : 0;
+    const avgConfirmationTime = totalBatches
+        ? Math.round(
+            batches.reduce((acc, batch) => {
+                const latestEvent = Array.isArray(batch.history) && batch.history.length > 0
+                    ? batch.history[batch.history.length - 1]
+                    : null;
+                if (!latestEvent?.timestamp || !batch.updatedAt) return acc + 2;
+                const diffMs = Math.abs(new Date(batch.updatedAt).getTime() - new Date(latestEvent.timestamp).getTime());
+                return acc + Math.max(1, Math.round(diffMs / 60000));
+            }, 0) / totalBatches
+        )
+        : 0;
+
     if (!user) {
         return (
             <div className="text-center px-4 sm:px-6 mt-12 sm:mt-20">
@@ -119,8 +143,22 @@ const Dashboard = () => {
                     <button onClick={() => setShowScanner(!showScanner)} className="w-full sm:w-auto bg-surface text-primary border border-border px-5 sm:px-6 py-3 rounded-lg shadow font-medium hover:bg-surface/80 transition-colors">
                         {showScanner ? 'Hide Scanner' : 'Scan QR Code'}
                     </button>
+                    <Link to="/explorer/COT-DEMO-ITALY-001" className="w-full sm:w-auto bg-gold text-black px-5 sm:px-6 py-3 rounded-lg shadow font-bold text-center hover:opacity-90 transition-opacity">
+                        Try Demo Data
+                    </Link>
                 </div>
                 {showScanner && <div className="mt-6 sm:mt-8"><QRScanner /></div>}
+
+                <div className="mt-8 sm:mt-10 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                    <div className="bg-surface border border-border rounded-2xl p-4 sm:p-5">
+                        <p className="text-[10px] uppercase tracking-widest font-black text-secondary mb-2">Supply Chain Flow</p>
+                        <p className="font-black text-gold">Farmer → Mill → Manufacturer → Exporter → Buyer → Consumer</p>
+                    </div>
+                    <div className="bg-surface border border-border rounded-2xl p-4 sm:p-5">
+                        <p className="text-[10px] uppercase tracking-widest font-black text-secondary mb-2">How It Works</p>
+                        <p className="font-bold">1) Register Batch • 2) Record Stage Updates • 3) Blockchain Verification • 4) QR-Based Consumer Check</p>
+                    </div>
+                </div>
 
                 {/* Manual Verification Fallback */}
                 <div className="mt-6 sm:mt-8 max-w-md mx-auto px-4">
@@ -174,10 +212,10 @@ const Dashboard = () => {
                 {/* Stats Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-8 sm:mb-12">
                     {[
-                        { label: 'Network Volume', value: batches.length + ' Units', color: 'border-gold' },
-                        { label: 'On-Chain Sync', value: '100%', color: 'border-border' },
-                        { label: 'Active Oracles', value: '24 Nodes', color: 'border-border' },
-                        { label: 'Security Alerts', value: '0', color: 'border-green-500/50' }
+                        { label: 'Total Batches', value: `${totalBatches}`, color: 'border-gold' },
+                        { label: 'Active Transfers', value: `${activeTransfers}`, color: 'border-border' },
+                        { label: 'Blockchain Verified %', value: `${verifiedPercent}%`, color: 'border-border' },
+                        { label: 'Avg Confirmation Time', value: `${avgConfirmationTime} min`, color: 'border-green-500/50' }
                     ].map((stat, i) => (
                         <div key={i} className={`bg-surface/50 backdrop-blur-md p-4 sm:p-6 rounded-2xl shadow-sm border-b-2 ${stat.color} hover:translate-y-[-4px] transition-transform duration-300 border-x border-t border-border`}>
                             <h3 className="text-secondary text-[9px] sm:text-xs font-bold uppercase tracking-widest mb-1">{stat.label}</h3>
@@ -240,10 +278,13 @@ const Dashboard = () => {
                             <div className="p-4 sm:p-6">
                                 <div className="mb-4 sm:mb-6">
                                     <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-2 sm:gap-0 mb-3 sm:mb-4">
-                                        <div className="px-2 sm:px-3 py-1 bg-[#d4af37]/10 text-[#d4af37] border border-[#d4af37]/20 rounded-lg text-[8px] sm:text-[10px] font-black uppercase tracking-widest">
-                                            Stage: {batch.stage.replace('_', ' ')}
+                                        <div className="flex flex-wrap items-center gap-2">
+                                            <div className="px-2 sm:px-3 py-1 bg-[#d4af37]/10 text-[#d4af37] border border-[#d4af37]/20 rounded-lg text-[8px] sm:text-[10px] font-black uppercase tracking-widest">
+                                                Stage: {batch.stage.replace('_', ' ')}
+                                            </div>
+                                            <BlockchainStatusBadge status={batch.isSynced ? 'VERIFIED' : 'PENDING'} />
                                         </div>
-                                        <span className="text-[8px] sm:text-[10px] text-slate-500 font-bold uppercase">{new Date(batch.updatedAt).toLocaleDateString()}</span>
+                                        <span className="text-[8px] sm:text-[10px] text-slate-500 font-bold uppercase">{new Date(batch.updatedAt).toLocaleString()}</span>
                                     </div>
                                     <div className="flex items-center space-x-2 sm:space-x-3 text-slate-400">
                                         <div className="w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black flex items-center justify-center text-[#d4af37] border border-[#d4af37]/30 font-bold text-xs flex-shrink-0">
@@ -252,6 +293,18 @@ const Dashboard = () => {
                                         <div className="flex-1 min-w-0">
                                             <p className="text-[8px] sm:text-[10px] uppercase font-black text-secondary tracking-tighter leading-none">Verified Custodian</p>
                                             <p className="text-xs sm:text-sm font-bold text-primary truncate">{batch.currentOwner}</p>
+                                        </div>
+                                    </div>
+                                    <div className="mt-3 sm:mt-4 grid grid-cols-2 gap-2 text-[10px]">
+                                        <div className="bg-white/5 rounded-lg p-2 border border-white/5">
+                                            <p className="uppercase tracking-widest text-secondary font-black">Impact Score</p>
+                                            <p className="text-gold font-black mt-1">{getImpactScore(batch.data?.variety)}/100</p>
+                                        </div>
+                                        <div className="bg-white/5 rounded-lg p-2 border border-white/5">
+                                            <p className="uppercase tracking-widest text-secondary font-black">Last Tx</p>
+                                            <p className="text-gold font-black mt-1 truncate" title={batch.history?.[batch.history?.length - 1]?.txId || 'No hash'}>
+                                                {(batch.history?.[batch.history?.length - 1]?.txId || 'Pending').slice(0, 12)}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>

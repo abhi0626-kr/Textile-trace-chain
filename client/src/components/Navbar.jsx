@@ -104,8 +104,12 @@ const Navbar = () => {
 
             {/* Desktop Menu */}
             <div className="hidden lg:flex items-center space-x-8 font-bold text-xs uppercase tracking-widest text-secondary">
-                <Link to="/" className="hover:text-gold transition-colors">Network Explorer</Link>
+                <Link to="/" className="hover:text-gold transition-colors">Dashboard</Link>
+                <Link to="/explorer" className="hover:text-gold transition-colors">Public Explorer</Link>
                 <Link to="/analytics" className="hover:text-gold transition-colors">Network Intelligence</Link>
+                <Link to="/health" className="hover:text-gold transition-colors">System Health</Link>
+                <Link to="/security" className="hover:text-gold transition-colors">Security</Link>
+                <Link to="/sustainability" className="hover:text-gold transition-colors">Sustainability</Link>
                 <ThemeToggle />
 
                 {localStorage.getItem('token') ? (

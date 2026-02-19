@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
 const path = require('path');
 require('dotenv').config();
 
@@ -53,6 +54,16 @@ app.use(helmet({
 }));
 app.use(morgan('dev'));
 
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 200,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { msg: 'Too many requests from this IP, please try again later.' }
+});
+
+app.use('/api', apiLimiter);
+
 // Static files for document uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
@@ -67,11 +78,13 @@ const batchRoutes = require('./routes/batch');
 const blockchainRoutes = require('./routes/blockchain');
 const seedRoutes = require('./routes/seed');
 const notificationRoutes = require('./routes/notifications');
+const healthRoutes = require('./routes/health');
 app.use('/api/auth', authRoutes);
 app.use('/api/batch', batchRoutes);
 app.use('/api/blockchain', blockchainRoutes);
 app.use('/api/seed', seedRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/health', healthRoutes);
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
