@@ -95,6 +95,18 @@ The `client` folder is configured for deployment on Vercel.
 
 Deploy the `backend` folder. Ensure you add all environment variables in the dashboard.
 
+## 📚 Project Documentation
+
+This repository includes complete capstone documentation artifacts in the root folder:
+
+- `PROJECT_DOCUMENTATION.html` — Full final report in print-ready HTML format
+- `PROJECT_DOCUMENTATION.md` — Markdown version of the final report
+- `Textile_Trace-Blockchain_Supply_Chain_System_Deep.pdf` — Extended deep-dive PDF (flowcharts, workflows, diagrams)
+
+### Generate PDF from HTML
+
+Open `PROJECT_DOCUMENTATION.html` in a browser and print/save as PDF.
+
 ## 🛠️ Database Management Utilities
 
 The project includes utility scripts for managing users in MongoDB. These are located in `backend/scripts/`.
@@ -163,4 +175,4 @@ node scripts/delete-user.js [EMAIL_ADDRESS]
 
 ## 📄 License
 
-MIT
+This project is licensed under the MIT License. See the `LICENSE` file for details.
